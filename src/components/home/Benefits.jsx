@@ -3,7 +3,7 @@ import { ReactComponent as Quiz} from '../../svg/Benefits.svg';
 import { ReactComponent as Exams} from '../../svg/Benefits1.svg';
 import { ReactComponent as Solution} from '../../svg/Benefits2.svg';
 import { ReactComponent as Review} from '../../svg/Benefits3.svg';
-import { ReactComponent as Video} from '../../svg/Benefits4.svg'
+import { ReactComponent as Video} from '../../svg/Benefits4.svg';
 
 const data = [
   {

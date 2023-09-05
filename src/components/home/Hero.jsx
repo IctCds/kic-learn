@@ -9,7 +9,7 @@ import Jamb from '../../img/home/jamb.png';
 
 const Hero = () => {
   return (
-    <section className='bg-[#F5E6FE] h-[350px] w-[300px] mx-auto p-4 rounded-md text-center '>
+    <section className='bg-[#F5E6FE] h-[350px] w-[300px] mx-auto p-4 rounded-md text-center'>
       <div className='flex justify-between'>
         <span className='ml-10 mt-[-30px]'>
           <Ellipse1/>
