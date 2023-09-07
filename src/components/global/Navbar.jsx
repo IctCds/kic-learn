@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className='cursor-pointer' onClick={()=> setNav(true)}>
         <FaBars/>
       </div>
-      <Sidebar nav={nav} menuRef={menuRef}/>
+      <Sidebar nav={nav} menuRef={menuRef} sidebar={setNav}/>
     </section>
   )
 }

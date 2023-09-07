@@ -13,21 +13,32 @@ import Report from '../pages/dashboard/Report';
 // Components
 import Navbar from '../components/global/Navbar';
 import Footer from '../components/global/Footer';
+import Auth from '../components/auth/Auth';
+
+// Context
+import { AuthProvider } from '../context/auth/AuthContext';
 
 const Setup = () => {
   return (
     <Router>
-      <Navbar/>
-        <Routes>
-          <Route exact path='/' element={<Homepage/>}/>
-          <Route path='dashboard' element={<Dashboard/>}/>
-          <Route path='dashboard/quiz' element={<Quiz/>}/>
-          <Route path='dashboard/library' element={<Library/>}/>
-          <Route path='dashboard/exams' element={<Exams/>}/>
-          <Route path='dashboard/profile' element={<Profile/>}/>
-          <Route path='dashboard/report' element={<Report/>}/>
-        </Routes>
-      <Footer/>
+      <AuthProvider>
+        <Navbar/>
+        <Auth/>
+          <Routes>
+            <Route exact path='/' element={<Homepage/>}/>
+
+            {/* Dashboard Routes */}
+            <Route path='/dashboard' element={<Dashboard/>}/>
+            <Route path='/dashboard/quiz' element={<Quiz/>}/>
+            <Route path='/dashboard/library' element={<Library/>}/>
+            <Route path='/dashboard/exams' element={<Exams/>}/>
+            <Route path='/dashboard/profile' element={<Profile/>}/>
+            <Route path='/dashboard/report' element={<Report/>}/>
+            {/* Dashboard Routes */}
+
+          </Routes>
+        <Footer/>
+      </AuthProvider>
     </Router>
   )
 }

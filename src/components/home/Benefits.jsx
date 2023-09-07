@@ -50,7 +50,7 @@ const Benefits = () => {
                 <p className='text-xs text-[#817A86]'>{item.body}.</p>
               </div>
               <div className='w-[30%] pt-4 px-4 rounded-r-md'>
-                <div className='pt-2 h-full bg-[#F5E6FE]'>
+                <div className='pt-2 px-1 h-full bg-[#F5E6FE]'>
                   {item.component}
                 </div>
               </div>
