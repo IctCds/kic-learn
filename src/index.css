@@ -1,12 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Progress bar styling */
+progress[value]::-webkit-progress-bar {
+  background-color: #e6e2e9;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.excellent::-webkit-progress-value {
+  background-color: #56a923;
+}
+
+.pass::-webkit-progress-value {
+  background-color: #e5a84c;
+}
+
+.fail::-webkit-progress-value {
+  background-color: #e54c4c;
+}
+
+.circular-bar {
+  /* background-image: conic-gradient(#56a923 40deg, rgba(255, 255, 255, 0) 0deg); */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-bar::after {
+  content: "";
+  height: 65px;
+  width: 65px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+}
+
+
+select > option{
+background-color: white;
+border-radius: 0;
+}
