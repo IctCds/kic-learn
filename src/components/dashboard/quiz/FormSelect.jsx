@@ -24,5 +24,4 @@ const FormSelect = ({ labelText, options }) => {
     </div>
   );
 };
-
 export default FormSelect;

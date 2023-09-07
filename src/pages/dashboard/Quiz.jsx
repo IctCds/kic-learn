@@ -3,10 +3,10 @@ import dummyImage from "../../img/dashboard/dummyImage.png";
 import { BsQuestionCircle } from "react-icons/bs";
 import { PiTimer } from "react-icons/pi";
 import { IoMdCheckmark } from "react-icons/io";
-import FormSelect from "../../components/dashboard/FormSelect";
-import Pagination from "../../components/dashboard/Pagination";
-import TestSubjectCard from "../../components/dashboard/TestSubjectCard";
-import TestScoreCard from "../../components/dashboard/TestScoreCard";
+import FormSelect from "../../components/dashboard/quiz/FormSelect";
+import Pagination from "../../components/dashboard/quiz/Pagination";
+import TestSubjectCard from "../../components/dashboard/quiz/TestSubjectCard";
+import TestScoreCard from "../../components/dashboard/quiz/TestScoreCard";
 
 const dummySubject = [
   "Mathematics",
