@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 import { useAuthContext } from '../../context/auth/AuthContext';
+import {BsEmojiSunglasses} from 'react-icons/bs';
+import {MdOutlineAlternateEmail} from 'react-icons/md';
+import {BiLock} from 'react-icons/bi';
+import {FiEye} from 'react-icons/fi';
 
 const exams = ['JSSCE', 'SSSCE', 'JAMB'];
 
@@ -30,18 +34,30 @@ const SignUp = () => {
       <form className='w-full mt-2 py-4'>
         <div className='flex flex-col mb-2'>
           <label htmlFor='name' className='text-xs font-semibold text-[#817A86] mb-2'>Name</label>
-          <input type='text' className='border-none px-2 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs' 
-            placeholder='Ciroma Chukwu'/>
+          <div className='relative flex items-center'>
+            <span className='absolute text-gray-300 pl-3 pointer-events-none'><BsEmojiSunglasses/></span>
+            <input type='text' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
+              placeholder='Ciroma Chukwu'/>
+          </div>
         </div>
         <div className='flex flex-col mb-2'>
           <label htmlFor='email' className='text-xs font-semibold text-[#817A86] mb-2'>Email</label>
-          <input type='email' className='border-none px-2 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs' 
-            placeholder='ciromachukwu@gmail.com'/>
+          <div className='relative flex items-center'>
+            <span className='absolute text-gray-300 pl-3 pointer-events-none'><MdOutlineAlternateEmail/></span>
+            <input type='email' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
+              placeholder='ciromachukwu@gmail.com'/>
+          </div>
         </div>
         <div className='flex flex-col mb-4'>
           <label htmlFor='password' className='text-xs font-semibold text-[#817A86] mb-2'>Password</label>
-          <input type='password' className='border-none px-2 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs' 
-            placeholder='**********'/>
+          <div className='relative flex items-center'>
+            <span className='w-full absolute text-gray-300 px-3 flex justify-between pointer-events-none'>
+              <BiLock/>
+              <FiEye/>
+            </span>
+            <input type='password' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
+              placeholder='**********'/>
+          </div>
         </div>
         <div>
           <input type='submit' value='Sign up' className='w-full h-12 rounded-md bg-[#942BD4] text-[#FAF9FB] text-sm cursor-pointer'/>
