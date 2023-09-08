@@ -17,7 +17,7 @@ const FormSelect = ({ labelText, options }) => {
             );
           })}
         </select>
-        <div className="absolute right-2 text-[#817A86]">
+        <div className="absolute right-2 text-[#817A86]" >
           <CiSearch />
         </div>
       </div>
