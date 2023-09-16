@@ -8,7 +8,8 @@ import { ReactComponent as ProfileCard} from '../../svg/Benefits7.svg';
 import {AiOutlineArrowRight} from 'react-icons/ai';
 
 
-const Features = () => {
+const Features = ({profile}) => {
+  const {user, userExam} = profile;
   return (
     <section className='my-10 bg-[#FAF9FB] max-w-[550px] mx-auto py-8'>
       <div className='grid gap-y-4 max-w-[400px] mx-auto'>
@@ -21,7 +22,7 @@ const Features = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to='/dashboard/quiz'>
+              <Link to={`/dashboard/quiz/${user}/${userExam}`}>
                 <button className='bg-[#942BD4] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>
@@ -43,7 +44,7 @@ const Features = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to='/dashboard/exams'>
+              <Link to={`/dashboard/exam/${user}/${userExam}`}>
                 <button className='bg-[#6CD42B] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>
@@ -65,7 +66,7 @@ const Features = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to='/dashboard/library'>
+              <Link to={`/dashboard/library/${user}`}>
                 <button className='bg-[#2B9CD4] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>
@@ -87,7 +88,7 @@ const Features = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to='/dashboard/report'>
+              <Link to={`/dashboard/report/${user}`}>
                 <button className='bg-[#942BD4] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>
@@ -109,7 +110,7 @@ const Features = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to='/dashboard/profile'>
+              <Link to={`/dashboard/profile/${user}`}>
                 <button className='bg-[#6CD42B] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>

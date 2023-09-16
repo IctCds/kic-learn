@@ -17,11 +17,13 @@ import Auth from '../components/auth/Auth';
 
 // Context
 import { AuthProvider } from '../context/auth/AuthContext';
+import { AppProvider } from '../context/app/AppContext';
 
 const Setup = () => {
   return (
     <Router>
       <AuthProvider>
+      <AppProvider>
         <Navbar/>
         <Auth/>
           <Routes>
@@ -29,15 +31,16 @@ const Setup = () => {
 
             {/* Dashboard Routes */}
             <Route path='/dashboard' element={<Dashboard/>}/>
-            <Route path='/dashboard/quiz' element={<Quiz/>}/>
-            <Route path='/dashboard/library' element={<Library/>}/>
-            <Route path='/dashboard/exams' element={<Exams/>}/>
-            <Route path='/dashboard/profile' element={<Profile/>}/>
-            <Route path='/dashboard/report' element={<Report/>}/>
+            <Route path='/dashboard/quiz/:id/:exam' element={<Quiz/>}/>
+            <Route path='/dashboard/library/:id' element={<Library/>}/>
+            <Route path='/dashboard/exams/:id/:exam' element={<Exams/>}/>
+            <Route path='/dashboard/profile/:id' element={<Profile/>}/>
+            <Route path='/dashboard/report/:id' element={<Report/>}/>
             {/* Dashboard Routes */}
 
           </Routes>
         <Footer/>
+        </AppProvider>
       </AuthProvider>
     </Router>
   )

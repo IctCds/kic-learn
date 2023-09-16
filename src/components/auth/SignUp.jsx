@@ -3,12 +3,12 @@ import { useAuthContext } from '../../context/auth/AuthContext';
 import {BsEmojiSunglasses} from 'react-icons/bs';
 import {MdOutlineAlternateEmail} from 'react-icons/md';
 import {BiLock} from 'react-icons/bi';
-import {FiEye} from 'react-icons/fi';
+import {FiEye} from 'react-icons/fi'; 
 
 const exams = ['JSSCE', 'SSSCE', 'JAMB'];
 
 const SignUp = () => {
-  let {setSignUpOpen, setLoginOpen} = useAuthContext();
+  let {setSignUpOpen, setLoginOpen, handleChange, signUp, setExam, loading} = useAuthContext();
   const [active, setActive] = useState(0);
 
   const handleClick = (index) =>{
@@ -24,28 +24,28 @@ const SignUp = () => {
             <span 
             key={index}
             className={active === index ? 'w-1/3 py-1 bg-[#F5E6FE] text-[#942BD4] border-b-2 border-[#942BD4] font-semibold cursor-pointer': 'w-1/3 py-1 text-[#CDC7D1] font-semibold cursor-pointer'}
-            onClick={()=> {handleClick(index)}}
+            onClick={()=> {handleClick(index); setExam(exam)}}
             >
             {exam}
             </span>
           )
         })}
       </div>
-      <form className='w-full mt-2 py-4'>
+      <form className='w-full mt-2 py-4' onSubmit={signUp}>
         <div className='flex flex-col mb-2'>
           <label htmlFor='name' className='text-xs font-semibold text-[#817A86] mb-2'>Name</label>
           <div className='relative flex items-center'>
             <span className='absolute text-gray-300 pl-3 pointer-events-none'><BsEmojiSunglasses/></span>
-            <input type='text' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
-              placeholder='Ciroma Chukwu'/>
+            <input type='text' name='username' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] placeholder-[#B4ABBA] text-gray-800 text-xs focus:outline-[#942BD4]' 
+              placeholder='Ciroma Chukwu' onChange={handleChange} required/>
           </div>
         </div>
         <div className='flex flex-col mb-2'>
           <label htmlFor='email' className='text-xs font-semibold text-[#817A86] mb-2'>Email</label>
           <div className='relative flex items-center'>
             <span className='absolute text-gray-300 pl-3 pointer-events-none'><MdOutlineAlternateEmail/></span>
-            <input type='email' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
-              placeholder='ciromachukwu@gmail.com'/>
+            <input type='email' name='email' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] placeholder-[#B4ABBA] text-gray-800 text-xs focus:outline-[#942BD4]' 
+              placeholder='ciromachukwu@gmail.com' onChange={handleChange} required/>
           </div>
         </div>
         <div className='flex flex-col mb-4'>
@@ -55,12 +55,12 @@ const SignUp = () => {
               <BiLock/>
               <FiEye/>
             </span>
-            <input type='password' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] text-[#B4ABBA] text-xs focus:outline-[#942BD4]' 
-              placeholder='**********'/>
+            <input type='password' name='password' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] placeholder-[#B4ABBA] text-gray-800 text-xs focus:outline-[#942BD4]' 
+              placeholder='**********' onChange={handleChange} required/>
           </div>
         </div>
         <div>
-          <input type='submit' value='Sign up' className='w-full h-12 rounded-md bg-[#942BD4] text-[#FAF9FB] text-sm cursor-pointer'/>
+          <input type='submit' value={loading? 'Signing Up ...' :'Sign up'} className='w-full h-12 rounded-md bg-[#942BD4] text-[#FAF9FB] text-sm cursor-pointer'/>
         </div>
       </form>
       <div className='text-center text-sm'>
