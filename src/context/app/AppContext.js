@@ -35,9 +35,7 @@ const AppProvider = ({children}) => {
     let data = await response.json();
     
     if (response.status === 200){
-      setUserProfile(data)
-      
-      console.log(data);
+      setUserProfile(data);
     } else{
       console.log(response.statusText)
     }
