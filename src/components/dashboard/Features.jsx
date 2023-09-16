@@ -44,7 +44,7 @@ const Features = ({profile}) => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to={`/dashboard/exam/${user}/${userExam}`}>
+              <Link to={`/dashboard/exams/${user}/${userExam}`}>
                 <button className='bg-[#6CD42B] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>
