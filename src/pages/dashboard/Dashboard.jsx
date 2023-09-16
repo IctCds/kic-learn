@@ -18,8 +18,8 @@ const Dashboard = () => {
     <main className="max-w-[1280px] mx-auto pt-8">
     {
       isLoading ? (
-        <div class=" flex h-screen justify-center items-center">
-          <div class="animate-spin rounded-full h-32 w-32 border-b-4 border-[#942BD4]"></div>
+        <div className=" flex h-screen justify-center items-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-[#942BD4]"></div>
         </div>
       ):
       (

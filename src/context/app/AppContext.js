@@ -28,7 +28,7 @@ const AppProvider = ({children}) => {
   }
 
   let fetchUser = async(id)=>{
-    let response = await fetch(`${baseURL}user-profile/${id}/`, {
+    let response = await fetch(`${baseURL}/learn/user-profile/${id}/`, {
       method: 'GET',
       headers:{'Content-Type': 'application/json'}
     });
