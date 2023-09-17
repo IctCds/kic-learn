@@ -1,6 +1,7 @@
 import React from "react";
 import { BiStopwatch } from "react-icons/bi";
 import Modal from "../../components/dashboard/quizInterface/Modal";
+import { Link } from "react-router-dom";
 
 const quizNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const dummyOption = [
@@ -118,7 +119,7 @@ const QuizInterface = () => {
               : "bg-[#E6E2E9] text-[#B4ABBA]"
           }`}
         >
-          Next question
+          <Link to="/dashboard/result">Next question</Link>
         </button>
         <div className="flex justify-center">
           <button className="text-sm font-medium text-[#942BDA] border-b-2 border-[#942bda]">
