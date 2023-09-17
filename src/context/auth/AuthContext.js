@@ -216,6 +216,7 @@ const AuthProvider = ({children}) => {
       login,
       logout,
       handleChange,
+      getUsers,
       // ** UPDATE
       setExam,
       // **LOADING

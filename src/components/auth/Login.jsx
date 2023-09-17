@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useAuthContext } from '../../context/auth/AuthContext';
 import {MdOutlineAlternateEmail} from 'react-icons/md';
 import {BiLock} from 'react-icons/bi';
 import {FiEye} from 'react-icons/fi';
 
 const Login = () => {
-  let {setSignUpOpen, setLoginOpen, login, loading} = useAuthContext();
+  let {setSignUpOpen, setLoginOpen, login, loading, getUsers} = useAuthContext();
+
+  useEffect(()=>{
+    getUsers();
+  }, [])
 
   return (
     <div className='h-[310px] w-[300px] bg-white rounded-md px-4 py-2'>
