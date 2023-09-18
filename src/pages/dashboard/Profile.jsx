@@ -9,7 +9,7 @@ import Pagination from "../../components/dashboard/quiz/Pagination";
 
 import '../../utils/profile.css'
 
-import pic from '../../img/profile/pic.png';
+import pic from '../../img/profile/anon.png';
 import editIcon from '../../svg/Profile/edit.svg';
 import eyeIcon from '../../svg/Profile/eye.svg';
 import vector3 from '../../svg/Profile/Vector 3.svg';
@@ -31,7 +31,7 @@ const profileData = {
   email: 'studentemail@gmail.com',
   password: '********',
   schoolClass: 'SS3',
-  exam: ['JSSCE', 'SSCE', 'JAMB']
+  exam: ['JSSCE', 'SSSCE', 'JAMB']
 };
 
 const percentage = 90;
@@ -41,7 +41,12 @@ const Profile = () => {
   const [showExamType, setShowExamType] = useState(true);
   const [selectedExam, setSelectedExam] = useState(profileData.exam[2]);
   let {user} = useAuthContext()
-  let {userLoggedIn, isLoading} = useAppContext();
+  let {userLoggedIn, isLoading, userProfile} = useAppContext();
+
+  let firstName = userProfile ? userProfile.userName.split(" ")[0]: profileData.firstName
+  let lastName = userProfile ? userProfile.userName.split(" ")[1] : profileData.lastName
+  let id = userProfile ? userProfile.user.split("-")[0]: profileData.id
+  let {userExam, userEmail, user_pic} = userProfile;
 
   const handleExamClick = (exam) => {
     setSelectedExam(exam);
@@ -69,12 +74,12 @@ const Profile = () => {
               </div>
               <div className = "HERO">
                 <div className = "credentials">
-                  <div className = "text-wrapper-9">{profileData.firstName} {profileData.lastName}</div>
-                  <div className = "text-wrapper-10">ID: {profileData.id}</div>
-                  <div className = "text-wrapper-10">{profileData.exam[2]}</div>
+                  <div className = "text-wrapper-9">{firstName} {lastName[0]}.</div>
+                  <div className = "text-wrapper-10">ID: {id}</div>
+                  <div className = "text-wrapper-10">{userExam}</div>
                   <div className = "text-wrapper-10">{showLocation && <div>Location: {profileData.location}</div>}</div>
                 </div>
-                <img className = "profile-instance" alt = "Edit or upload pics" src = {pic} />
+                <img className = "profile-instance h-[100px]" alt = "Edit or upload pics" src = {user_pic? user_pic : pic} />
               </div>
             </div>
 
@@ -83,7 +88,7 @@ const Profile = () => {
                 <div className = "entry">
                   <div className = "name-2">
                     <div className = "text-wrapper-11">Full Name</div>
-                    <div className = "text-wrapper-12">{profileData.firstName} {profileData.lastName}</div>
+                    <div className = "text-wrapper-12">{firstName} {lastName}</div>
                   </div>
                 </div>
                 <div className = "entry">
@@ -98,7 +103,7 @@ const Profile = () => {
                 <div className = "entry-2">
                   <div className = "name-2">
                     <div className = "text-wrapper-11">email</div>
-                    <div className = "text-wrapper-12">{profileData.email}</div>
+                    <div className = "text-wrapper-12">{userEmail}</div>
                   </div>
                 </div>
                 
@@ -117,7 +122,7 @@ const Profile = () => {
                 </div>
                   <div className = "frame-4">
                     <div className = "text-wrapper-11">Class</div>
-                    <div className = "passtyle">{profileData.schoolClass}</div>
+                    <div className = "passtyle">{userExam === "JSSCE"? "JSS3" : "SSS3"}</div>
                     <div className = "buttons">
                     <img className = "darrow" alt = "Edit" src = {Darrow} />
                     </div>
@@ -125,9 +130,15 @@ const Profile = () => {
                   <div className = "frame-5">
                     <div className = "text-wrapper-11">Exam type</div>
                     <div className = "exam-type">
-                      <div className = "ex"> JSSCE</div>
-                      <div className = "ex"> SSSCE</div>
-                      <div className = "ex-sel"> JAMB</div>
+                    {profileData.exam.map((exam, index) =>{
+                      return (
+                        <div 
+                        key={index}
+                        className = {exam === userExam ? "ex-sel" : "ex"}
+                        >{exam}</div>
+                      )
+                    })}
+                      
                       {/* {profileData.exam.map((exam, index) => (
                       <a
                       key = {index}
@@ -365,11 +376,11 @@ const Profile = () => {
             </div>
             <div className = "HERO-2">
               <div className = "credentials">
-                <div className = "text-wrapper-9">{profileData.firstName} {profileData.lastName}</div>
-                <div className = "text-wrapper-10">ID: {profileData.id}</div>
-                <div className = "text-wrapper-10">{profileData.exam[2]}</div>
+                <div className = "text-wrapper-9">{firstName} {lastName}</div>
+                <div className = "text-wrapper-10">ID: {id}</div>
+                <div className = "text-wrapper-10">{userExam}</div>
               </div>
-              <img className = "profile-instance1" alt = "Edit or upload pics" src = {pic} />
+              <img className = "profile-instance1" alt = "Edit or upload pics" src = {user_pic ? user_pic : pic} />
             </div>
             <div className = "frame-14">
               <div className = "div-3">

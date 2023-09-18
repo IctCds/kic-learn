@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import dummyImage from "../../img/dashboard/dummyImage.png";
+import dummyImage from "../../img/profile/anon.png";
 import { BsQuestionCircle } from "react-icons/bs";
 import { PiTimer } from "react-icons/pi";
 import { IoMdCheckmark } from "react-icons/io";
@@ -100,7 +100,12 @@ const dummyTestScoreCard = [
 const Quiz = () => {
   const [filter, setFilter] = React.useState("ALL");
   let { user } = useAuthContext();
-  let { userLoggedIn, isLoading } = useAppContext();
+  let { userLoggedIn, isLoading, userProfile } = useAppContext();
+
+  let firstName = userProfile ? userProfile.userName.split(" ")[0]: "First Name"
+  let lastName = userProfile ? userProfile.userName.split(" ")[1] : "L."
+  let id = userProfile ? userProfile.user.split("-")[0]: "12345678AB"
+  let {user_pic, userExam} = userProfile;
 
   useEffect(() => {
     userLoggedIn(user);
@@ -119,14 +124,14 @@ const Quiz = () => {
           {/*User Profile Card */}
           <div className="p-4 border-[1px] border-[#E6E2E9] rounded-lg h-[112px] flex gap-4 items-center mb-8">
             <div className="border-[1px] rounded-lg border-[#E6E2E9] overflow-hidden">
-              <img src={dummyImage} alt="student" />
+              <img className="h-[100px]" src={user_pic? user_pic : dummyImage} alt="student" />
             </div>
             <div>
-              <p className="font-bold text-[#942BD4]">First Name L.</p>
+              <p className="font-bold text-[#942BD4]">{firstName} {lastName[0]}.</p>
               <p className="text-xs font-normal text-[#817A86]">
-                ID: 12345678AB
+                ID: {id}
               </p>
-              <p className="text-xs font-normal text-[#817A86]">JAMB</p>
+              <p className="text-xs font-normal text-[#817A86]">{userExam}</p>
             </div>
           </div>
 
