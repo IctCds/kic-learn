@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import dummyImage from "../../img/dashboard/dummyImage.png";
 import { BsQuestionCircle } from "react-icons/bs";
 import { PiTimer } from "react-icons/pi";
@@ -9,6 +9,7 @@ import TestSubjectCard from "../../components/dashboard/quiz/TestSubjectCard";
 import TestScoreCard from "../../components/dashboard/quiz/TestScoreCard";
 import { useAuthContext } from "../../context/auth/AuthContext";
 import { useAppContext } from "../../context/app/AppContext";
+import { Link } from "react-router-dom";
 
 const dummySubject = [
   "Mathematics",
@@ -98,23 +99,21 @@ const dummyTestScoreCard = [
 ];
 const Quiz = () => {
   const [filter, setFilter] = React.useState("ALL");
-  let {user} = useAuthContext();
-  let {userLoggedIn, isLoading} = useAppContext();
+  let { user } = useAuthContext();
+  let { userLoggedIn, isLoading } = useAppContext();
 
-  useEffect(()=>{
+  useEffect(() => {
     userLoggedIn(user);
-  }, [])
+  }, []);
 
   return (
     <section>
-    {
-      isLoading? (
+      {isLoading ? (
         <div className=" flex h-screen justify-center items-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-[#942BD4]"></div>
         </div>
-      ):
-      (
-            <div className="mx-6">
+      ) : (
+        <div className="mx-6">
           <p className="text-[#4D4950] text-[11px] my-5 font-bold">QUIZ</p>
 
           {/*User Profile Card */}
@@ -124,7 +123,9 @@ const Quiz = () => {
             </div>
             <div>
               <p className="font-bold text-[#942BD4]">First Name L.</p>
-              <p className="text-xs font-normal text-[#817A86]">ID: 12345678AB</p>
+              <p className="text-xs font-normal text-[#817A86]">
+                ID: 12345678AB
+              </p>
               <p className="text-xs font-normal text-[#817A86]">JAMB</p>
             </div>
           </div>
@@ -137,14 +138,15 @@ const Quiz = () => {
                 <PiTimer className="text-[#817A86] text-xl" /> 15 Mins
               </div>
               <div className="flex gap-2 items-center text-[#343036] ">
-                <BsQuestionCircle className="text-[#817A86] text-xl" /> 10 Questions
+                <BsQuestionCircle className="text-[#817A86] text-xl" /> 10
+                Questions
               </div>
               <div className="flex gap-2 items-center text-[#343036] ">
                 <IoMdCheckmark className="text-[#817A86] text-xl" /> 10 Marks
               </div>
             </div>
             <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 ">
-              Start your Quiz
+              <Link to="/dashboard/quiz-interface">Start your quiz</Link>
             </button>
           </form>
           <div className="mb-4">
@@ -154,7 +156,9 @@ const Quiz = () => {
               subjects.
             </p>
           </div>
-          <p className="text-[#4D4950] font-bold mb-3 text-[11px]">TEST SCORES</p>
+          <p className="text-[#4D4950] font-bold mb-3 text-[11px]">
+            TEST SCORES
+          </p>
 
           {dummyTestScoreCard?.map((item, index) => {
             return (
@@ -196,7 +200,10 @@ const Quiz = () => {
           <div>
             {dummyTestHistory.map((history, index) => {
               return (
-                <TestSubjectCard key={`${history.subject}-${index}`} {...history} />
+                <TestSubjectCard
+                  key={`${history.subject}-${index}`}
+                  {...history}
+                />
               );
             })}
           </div>
@@ -207,11 +214,13 @@ const Quiz = () => {
           </div>
 
           {/* FEEDBACK */}
-          <p className="text-[#4D4950] font-bold mb-3 mt-6 text-[11px]">FEEDBACK</p>
+          <p className="text-[#4D4950] font-bold mb-3 mt-6 text-[11px]">
+            FEEDBACK
+          </p>
           <div className="border-[1px] rounded-lg flex flex-col gap-4 border-[#E6E2E9] p-4 shadow mb-6">
             <p className="text-sm text-[#4D4950]">
-              Do you enjoy taking quizzes on our platform? Tell us more about what
-              you like or would like us to adjust.
+              Do you enjoy taking quizzes on our platform? Tell us more about
+              what you like or would like us to adjust.
             </p>
             <p className="bg-[#F3F0F4] border-[#E6E2E9] gap-[10px] rounded-lg border-[1px] text-xs p-2 leading-5 text-[#817A86]">
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -225,8 +234,7 @@ const Quiz = () => {
             </div>
           </div>
         </div>
-      )
-    }
+      )}
     </section>
   );
 };
