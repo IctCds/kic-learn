@@ -60,8 +60,7 @@ const AuthProvider = ({children}) => {
     });
     let data = await response.json()
     if (response.status === 200){
-      setUsers(data)
-      console.log(data)
+      setUsers(data);
     }
     else {
       console.log(response.statusText)
