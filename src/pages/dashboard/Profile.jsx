@@ -43,9 +43,9 @@ const Profile = () => {
   let {user} = useAuthContext()
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
 
-  let firstName = userProfile ? userProfile.userName.split(" ")[0]: profileData.firstName
-  let lastName = userProfile ? userProfile.userName.split(" ")[1] : profileData.lastName
-  let id = userProfile ? userProfile.user.split("-")[0]: profileData.id
+  let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: profileData.firstName
+  let lastName = userProfile.userName ? userProfile.userName.split(" ")[1] : profileData.lastName
+  let id = userProfile.user ? userProfile.user.split("-")[0]: profileData.id
   let {userExam, userEmail, user_pic} = userProfile;
 
   const handleExamClick = (exam) => {

@@ -9,6 +9,8 @@ import Library from "../pages/dashboard/Library";
 import Exams from "../pages/dashboard/Exams";
 import Profile from "../pages/dashboard/Profile";
 import Report from "../pages/dashboard/Report";
+import QuizInterface from "../pages/dashboard/QuizInterface";
+import QuizResult from "../pages/dashboard/QuizResult";
 
 // Components
 import Navbar from "../components/global/Navbar";
@@ -19,12 +21,15 @@ import Auth from "../components/auth/Auth";
 import { AuthProvider } from "../context/auth/AuthContext";
 import { AppProvider } from "../context/app/AppContext";
 
-import QuizInterface from "../pages/dashboard/QuizInterface";
-import QuizResult from "../pages/dashboard/QuizResult";
+// Utilities
+import ScrollToTop from "./ScrollToTop";
+
+
 
 const Setup = () => {
   return (
     <Router>
+    <ScrollToTop/>
       <AuthProvider>
         <AppProvider>
           <Navbar />
