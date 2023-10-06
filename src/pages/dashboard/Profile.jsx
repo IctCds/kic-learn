@@ -7,7 +7,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import Pagination from "../../components/dashboard/quiz/Pagination";
 
 
-import '../../utils/profile.css'
+import '../../components/dashboard/profile/profile.css'
 
 import pic from '../../img/profile/anon.png';
 import editIcon from '../../svg/Profile/edit.svg';
@@ -18,7 +18,6 @@ import toggle from "../../svg/Profile/Toggle.svg";
 import toggle1 from "../../svg/Profile/Toggle1.svg";
 import star1 from "../../svg/Profile/Star 1.svg";
 import star2 from "../../svg/Profile/Star 2.svg";
-
 
 
 
