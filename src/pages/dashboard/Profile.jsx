@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/app/AppContext';
 import { useAuthContext } from '../../context/auth/AuthContext';
 import { CircularProgressbar } from 'react-circular-progressbar';
+import Loader from '../../components/utilities/Loader';
 import 'react-circular-progressbar/dist/styles.css';
 
 import Pagination from "../../components/dashboard/quiz/Pagination";
@@ -59,9 +60,7 @@ const Profile = () => {
     <section>
     {isLoading ? 
       (
-        <div className=" flex h-screen justify-center items-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-[#942BD4]"></div>
-        </div>
+        <Loader/>
       )
       : 
       (
