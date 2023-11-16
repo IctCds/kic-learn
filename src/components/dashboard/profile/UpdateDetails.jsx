@@ -20,7 +20,7 @@ const UpdateDetails = ({userEmail, userExam, profileData}) => {
           <div className = "text-wrapper-11">Password</div>
           <div>
             <input type = "password" value = {profileData.password} disabled className = 'passtyle'/>
-            <div className = "buttons" >
+            <div className = "buttons mt-2" >
               <img className = "edit" alt = "Edit" src = {editIcon} />
               <img className = "vector" alt = "Vector" src = {vector3} />
               <img className = "edit" alt = "Edit" src = {eyeIcon} />
@@ -32,7 +32,7 @@ const UpdateDetails = ({userEmail, userExam, profileData}) => {
       <div className = "frame-4">
         <div className = "text-wrapper-11">Class</div>
         <div className = "passtyle">{userExam === "JSSCE"? "JSS3" : "SSS3"}</div>
-        <div className = "buttons">
+        <div className = "buttons mt-2">
         <img className = "darrow" alt = "Edit" src = {Darrow} />
         </div>
       </div>
