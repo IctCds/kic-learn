@@ -1,7 +1,7 @@
 import React from 'react'
 import './profile.css'
 
-const ProfileDetails = ({firstName, lastName, id, user_pic, pic, userExam, showLocation, location}) => {
+const ProfileDetails = ({firstName, lastName, id, user_pic, pic, userExam, showExam, showLocation, location}) => {
   return (
     <div className = "frame-2">
       <div className = "frame-3">
@@ -11,7 +11,7 @@ const ProfileDetails = ({firstName, lastName, id, user_pic, pic, userExam, showL
         <div className = "credentials">
           <div className = "text-wrapper-9">{firstName} {lastName[0]}.</div>
           <div className = "text-wrapper-10">ID: {id}</div>
-          <div className = "text-wrapper-10">{userExam}</div>
+          {showExam && <div className = "text-wrapper-10">{userExam}</div>}
           <div className = "text-wrapper-10">{showLocation && <div>Location: {location}</div>}</div>
         </div>
         <img className = "profile-instance h-[100px]" alt = "Edit or upload pics" src = {user_pic? user_pic : pic} />

@@ -35,8 +35,8 @@ const profileData = {
 
 
 const Profile = () => {
-  const [showLocation, setShowLocation] = useState(true);
-  const [showExamType, setShowExamType] = useState(true);
+  const [showLocation, setShowLocation] = useState(()=>localStorage.getItem('location')? false : true);
+  const [showExam, setShowExam] = useState(()=>localStorage.getItem('exam')? false : true);
   const [selectedExam, setSelectedExam] = useState(profileData.exam[2]);
   let {user} = useAuthContext()
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
@@ -71,6 +71,7 @@ const Profile = () => {
             user_pic={user_pic}
             pic={pic}
             userExam={userExam}
+            showExam={showExam}
             showLocation={showLocation}
             location={profileData.location}
           />
@@ -80,7 +81,6 @@ const Profile = () => {
               firstName={firstName}
               lastName={lastName}
               location={profileData.location}
-              showLocation={showLocation}
             />
 
             <UpdateDetails
@@ -89,7 +89,7 @@ const Profile = () => {
               profileData={profileData}
             />
               
-            <Performance/>
+            <Performance profile={userProfile}/>
 
           </div>
             
@@ -102,6 +102,11 @@ const Profile = () => {
             id={id}
             toggle={toggle}
             toggle1={toggle1}
+            location={setShowLocation}
+            exam={setShowExam}
+            showExam={showExam}
+            showLocation={showLocation}
+            userLocation={profileData.location}
           />
 
           <Feedback

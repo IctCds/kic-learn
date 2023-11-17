@@ -1,7 +1,7 @@
 import React from 'react'
 import './profile.css'
 
-const ShowDetails = ({firstName, lastName, location, showLocation}) => {
+const ShowDetails = ({firstName, lastName, location}) => {
   return (
     <div className = "card-2">
       <div className = "entry">
@@ -13,7 +13,7 @@ const ShowDetails = ({firstName, lastName, location, showLocation}) => {
       <div className = "entry">
         <div className = "name-2">
           <div className = "text-wrapper-11">Location</div>
-          <div className = "text-wrapper-12">{showLocation && location}</div>
+          <div className = "text-wrapper-12"> {location}</div>
         </div>
       </div>
     </div>
