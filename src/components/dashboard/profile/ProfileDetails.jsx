@@ -14,7 +14,7 @@ const ProfileDetails = ({firstName, lastName, id, user_pic, pic, userExam, showE
           {showExam && <div className = "text-wrapper-10">{userExam}</div>}
           <div className = "text-wrapper-10">{showLocation && <div>Location: {location}</div>}</div>
         </div>
-        <img className = "profile-instance h-[100px]" alt = "Edit or upload pics" src = {user_pic? user_pic : pic} />
+        <img className = "profile-instance h-[150px]" alt = "Edit or upload pics" src = {user_pic? user_pic : pic} />
       </div>
     </div>
   )

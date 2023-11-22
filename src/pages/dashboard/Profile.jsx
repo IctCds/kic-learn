@@ -8,6 +8,7 @@ import UpdateDetails from '../../components/dashboard/profile/UpdateDetails';
 import Performance from '../../components/dashboard/profile/Performance';
 import Privacy from '../../components/dashboard/profile/Privacy';
 import Feedback from '../../components/dashboard/profile/Feedback';
+import Modal from '../../components/dashboard/profile/modal/Modal';
 
 
 
@@ -38,6 +39,10 @@ const Profile = () => {
   const [showLocation, setShowLocation] = useState(()=>localStorage.getItem('location')? false : true);
   const [showExam, setShowExam] = useState(()=>localStorage.getItem('exam')? false : true);
   const [selectedExam, setSelectedExam] = useState(profileData.exam[2]);
+  const [ openDialog, setOpenDialog ] = useState(false);
+  const [ openUpload, setOpenUpload ] = useState(false);
+  const [ openPassword, setOpenPassword ] = useState(false);
+
   let {user} = useAuthContext()
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
 
@@ -47,7 +52,10 @@ const Profile = () => {
   let {userExam, userEmail, user_pic} = userProfile;
 
   const handleExamClick = (exam) => {
-    setSelectedExam(exam);
+    if (exam !== userExam){
+      setSelectedExam(exam);
+      setOpenDialog(true);
+    }
   };
 
   useEffect(()=>{
@@ -63,6 +71,17 @@ const Profile = () => {
       : 
       (
         <section className = "e-learning-profile pt-12">
+
+        <Modal 
+          exam={userExam}
+          newExam={selectedExam}
+          dialog={openDialog}
+          openDialog={setOpenDialog}
+          password={openPassword}
+          openPassword={setOpenPassword}
+          upload={openUpload}
+          openUpload={setOpenUpload}
+          />
 
           <ProfileDetails 
             firstName={firstName}
@@ -87,6 +106,8 @@ const Profile = () => {
               userEmail={userEmail}
               userExam={userExam}
               profileData={profileData}
+              handleClick={handleExamClick}
+              openPassword={setOpenPassword}
             />
               
             <Performance profile={userProfile}/>
