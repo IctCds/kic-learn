@@ -43,6 +43,7 @@ const Profile = () => {
   const [ openDialog, setOpenDialog ] = useState(false);
   const [ openUpload, setOpenUpload ] = useState(false);
   const [ openPassword, setOpenPassword ] = useState(false);
+  const [ load, setLoad ] = useState(true)
 
   let {user} = useAuthContext()
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
@@ -66,11 +67,14 @@ const Profile = () => {
 
   useEffect(()=>{
     userLoggedIn(user);
+    setTimeout(()=>{
+      setLoad(false);
+    }, 3000)
   }, [])
 
   return (
     <section>
-    {isLoading ? 
+    {isLoading || load ? 
       (
         <Loader/>
       )
