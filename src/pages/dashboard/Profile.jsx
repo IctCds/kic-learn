@@ -39,6 +39,7 @@ const Profile = () => {
   const [showLocation, setShowLocation] = useState(()=>localStorage.getItem('location')? false : true);
   const [showExam, setShowExam] = useState(()=>localStorage.getItem('exam')? false : true);
   const [selectedExam, setSelectedExam] = useState(profileData.exam[2]);
+  const [preview, setPreview] = useState(null)
   const [ openDialog, setOpenDialog ] = useState(false);
   const [ openUpload, setOpenUpload ] = useState(false);
   const [ openPassword, setOpenPassword ] = useState(false);
@@ -57,6 +58,11 @@ const Profile = () => {
       setOpenDialog(true);
     }
   };
+
+  const handlePreview = (pic) => {
+    setPreview(pic);
+    setOpenUpload(true)
+  }
 
   useEffect(()=>{
     userLoggedIn(user);
@@ -81,6 +87,7 @@ const Profile = () => {
           openPassword={setOpenPassword}
           upload={openUpload}
           openUpload={setOpenUpload}
+          userImage={preview}
           />
 
           <ProfileDetails 
@@ -93,6 +100,7 @@ const Profile = () => {
             showExam={showExam}
             showLocation={showLocation}
             location={profileData.location}
+            upload={handlePreview}
           />
 
           <div className = "benefits">

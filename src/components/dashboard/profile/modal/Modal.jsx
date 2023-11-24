@@ -4,7 +4,7 @@ import ResetPassword from './ResetPassword';
 import ImageUpload from './ImageUpload';
 import '../../../auth/auth.css'
 
-const Modal = ({exam, newExam, dialog, openDialog, password, openPassword, upload, openUpload}) => {
+const Modal = ({exam, newExam, dialog, openDialog, password, openPassword, upload, openUpload, userImage}) => {
   const modalRef = useRef();
 
   useEffect(() =>{
@@ -26,7 +26,7 @@ const Modal = ({exam, newExam, dialog, openDialog, password, openPassword, uploa
       <div ref={modalRef}>
         { dialog && <Dialog exam={exam} newExam={newExam} setDialog={openDialog}/> }
         { password && <ResetPassword/> }
-        { upload && <ImageUpload/> }
+        { upload && <ImageUpload userImage={userImage} setUpload={openUpload}/> }
       </div>
     </div>
   )

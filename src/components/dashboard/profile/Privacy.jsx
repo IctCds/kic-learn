@@ -33,7 +33,9 @@ const Privacy = ({firstName, lastName, userExam, userLocation, id, user_pic, pic
           {showExam && <div className = "text-wrapper-10">{userExam}</div>}
           <div className = "text-wrapper-10">{showLocation && <div>Location: {userLocation}</div>}</div>
         </div>
-        <img className = "profile-instance1" alt = "Edit or upload pics" src = {user_pic ? user_pic : pic} />
+        <div className='profile-instance1 feat'>
+          <img className = "rounded-[8px]" alt = "Edit or upload pics" src = {user_pic ? user_pic : pic} />
+        </div>
       </div>
       <div className = "frame-14">
         <div className = "div-3">
