@@ -5,7 +5,14 @@ import editIcon from '../../../svg/Profile/edit.svg';
 // import eyeIcon from '../../../svg/Profile/eye.svg';
 // import vector3 from '../../../svg/Profile/Vector 3.svg';
 
-const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassword, exams, classes, updateClass}) => {
+const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassword, exams, classes, updateClass, userClass}) => {
+
+  const handleChange = event => {
+    let name = event.target.value;
+    let items = classes.find((item)=> item.name === name);
+    updateClass({name: items.name, id: items.id});
+  };
+
   return (
     <div className = "card-3">
       <div className = "entry-2">
@@ -31,10 +38,10 @@ const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassw
       <div className = "frame-4">
         <div className = "text-wrapper-11">Class</div>
         { classes.length > 0 ?
-          <select className = "passtyle focus:outline-none focus:border-[#942BD4] appearance-none">
+          <select className = "passtyle focus:outline-none focus:border-[#942BD4] appearance-none" onChange={handleChange} value={userClass ? userClass: ""}>
           {classes.map((item)=>{
             return (
-              <option key={item.id} onClick={()=> updateClass({name: item.name, id: item.id})}>
+              <option key={item.id} value={item.name}>
                 {item.name}
               </option>
             )

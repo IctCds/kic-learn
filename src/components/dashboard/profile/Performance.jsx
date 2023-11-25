@@ -4,22 +4,13 @@ import Pagination from '../quiz/Pagination';
 import './profile.css';
 import { Link } from 'react-router-dom';
 
-let subjects = [
-  // {
-  //   id: 1,
-  //   name: 'Mathematics',
-  //   scores: [90, 80, 70, 60]
-  // },
-  // {
-  //   id: 2,
-  //   name: 'English',
-  //   scores: [65, 70, 82, 55]
-  // }
-]
 
 const Performance = ({profile}) => {
   const [stats, setStats] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   let {user, userExam} = profile
+
+  const baseURL = 'http://ictcds.pythonanywhere.com/api/';
 
   const avg = arr =>{
     let sum = arr.reduce((acc, cur) => acc + cur);
@@ -31,18 +22,38 @@ const Performance = ({profile}) => {
   }
 
 
+  const getResults = async()=>{
+    let response = await fetch(`${baseURL}learn/user-profile-results/${user}/`, {
+      method: 'GET',
+      headers:{'Content-Type': 'application/json'}
+    });
+
+    let data = await response.json()
+    if (response.status === 200){
+      setSubjects(data.performance)
+    } else {
+      console.log(response.statusText)
+    }
+  }
+
+
+  useEffect(()=>{
+    getResults();
+  }, [])
+
+
   useEffect(()=>{
     if (subjects.length > 0){
       const res = subjects.map((subject)=>({
         id: subject.id,
-        name: subject.name,
+        name: subject.subject,
         highScore : max(subject.scores),
         avgScore: avg(subject.scores)
       }));
   
       setStats(res);
     }
-  }, [])
+  }, [subjects])
 
   return (
     <main>
@@ -68,7 +79,7 @@ const Performance = ({profile}) => {
             )
           })}
           </div>
-          <div>
+          <div className='hidden'>
             <Pagination page = {3} />
           </div>
             

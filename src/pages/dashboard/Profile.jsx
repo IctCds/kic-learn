@@ -57,10 +57,10 @@ const Profile = () => {
   let {user} = useAuthContext()
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
 
-  let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: profileData.firstName
+  let firstName = userProfile.userName ? userProfile.userName.split(" ")[0] : profileData.firstName
   let lastName = userProfile.userName ? userProfile.userName.split(" ")[1] : profileData.lastName
   let id = userProfile.user ? userProfile.user.split("-")[0]: profileData.id
-  let {userExam, userEmail, user_pic} = userProfile;
+  let {userExam, userEmail, user_pic, userClass} = userProfile;
 
   const baseURL = 'http://ictcds.pythonanywhere.com/api/';
 
@@ -252,6 +252,7 @@ const Profile = () => {
               exams={exams}
               classes={classes}
               updateClass={setUpdateClass}
+              userClass={userClass}
             />
               
             <Performance profile={userProfile}/>
