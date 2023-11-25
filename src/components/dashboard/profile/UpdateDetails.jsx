@@ -5,9 +5,7 @@ import editIcon from '../../../svg/Profile/edit.svg';
 // import eyeIcon from '../../../svg/Profile/eye.svg';
 // import vector3 from '../../../svg/Profile/Vector 3.svg';
 
-let classes = ["JSS1", "JSS2", "JSS3", "SSS1", "SSS2", "SSS3"]
-
-const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassword}) => {
+const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassword, exams, classes, updateClass}) => {
   return (
     <div className = "card-3">
       <div className = "entry-2">
@@ -32,15 +30,16 @@ const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassw
       </div>
       <div className = "frame-4">
         <div className = "text-wrapper-11">Class</div>
-        <select className = "passtyle focus:outline-none focus:border-[#942BD4] appearance-none">
+        { classes.length > 0 ?
+          <select className = "passtyle focus:outline-none focus:border-[#942BD4] appearance-none">
           {classes.map((item)=>{
             return (
-              <option key={item}>
-                {item}
+              <option key={item.id} onClick={()=> updateClass({name: item.name, id: item.id})}>
+                {item.name}
               </option>
             )
           })}
-        </select>
+        </select> : null}
         <div className = "buttons mt-2 pointer-events-none">
         <img className = "darrow" alt = "Edit" src = {Darrow} />
         </div>
@@ -48,17 +47,18 @@ const UpdateDetails = ({userEmail, userExam, profileData, handleClick, openPassw
       
       <div className = "frame-5">
         <div className = "text-wrapper-11">Exam type</div>
-        <div className = "exam-type">
-        {profileData.exam.map((exam, index) =>{
+        { exams.length > 0 ?
+          <div className = "exam-type">
+        {exams.map((exam, index) =>{
           return (
             <div 
             key={index}
-            className = {exam === userExam ? "ex-sel cursor-pointer" : "ex cursor-pointer"}
-            onClick={()=> handleClick(exam)}
-            >{exam}</div>
+            className = {exam.name === userExam ? "ex-sel cursor-pointer" : "ex cursor-pointer"}
+            onClick={()=> handleClick(exam.name, exam.id)}
+            >{exam.name}</div>
           )
         })}
-        </div>
+        </div> : null}
       </div>
     </div>
   )

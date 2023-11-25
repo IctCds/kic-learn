@@ -1,8 +1,10 @@
 import React, {useRef, useState} from 'react'
 import { AiOutlineClose } from "react-icons/ai";
 
-const ImageUpload = ({userImage, setUpload}) => {
-  const [ image, setImage] = useState("");
+const ImageUpload = ({userImage, setUpload, updateImage}) => {
+  const [ image, setImage ] = useState("");
+  const [ newImage, setNewImage ] = useState(null);
+
   const hiddenFileInput = useRef(null);
 
   const handleClick = event => {
@@ -11,6 +13,7 @@ const ImageUpload = ({userImage, setUpload}) => {
 
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
+    setNewImage(fileUploaded);
     setImage(URL.createObjectURL(fileUploaded))
   };
 
@@ -32,7 +35,10 @@ const ImageUpload = ({userImage, setUpload}) => {
         <button className='bg-white border border-[#942BD4] w-[100px] py-1 text-sm text-[#942BD4] rounded-lg'
           onClick={handleClick}>
           Upload</button>
-        <button className='bg-[#942BD4] border text-sm w-[100px] py-1 text-white rounded-lg'>Done</button>
+        <button className='bg-[#942BD4] border text-sm w-[100px] py-1 text-white rounded-lg'
+        onClick={()=> {setUpload(false); updateImage(newImage)}}
+        >
+        Done</button>
       </div>
       <input type='file' onChange={handleChange} ref={hiddenFileInput} style={{display : 'none'}} accept='image/*'/>
     </div>
