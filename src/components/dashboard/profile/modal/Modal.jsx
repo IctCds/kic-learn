@@ -25,7 +25,7 @@ const Modal = ({exam, newExam, dialog, openDialog, password, openPassword, uploa
     <div className={dialog || password || upload ? "modal-overlay show-modal" : "modal-overlay"}>
       <div ref={modalRef}>
         { dialog && <Dialog exam={exam} newExam={newExam} setDialog={openDialog} updateExam={updateExam}/> }
-        { password && <ResetPassword/> }
+        { password && <ResetPassword setPassword={openPassword}/> }
         { upload && <ImageUpload userImage={userImage} setUpload={openUpload} updateImage={updateImage}/> }
       </div>
     </div>
