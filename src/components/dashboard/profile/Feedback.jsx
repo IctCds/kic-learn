@@ -1,11 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { IoMdCheckmark } from "react-icons/io";
 import './profile.css'
+import { useAuthContext } from '../../../context/auth/AuthContext';
+
+const baseURL = 'http://ictcds.pythonanywhere.com/api/';
 
 const Feedback = ({star1, star2}) => {
+  let {user} = useAuthContext()
   const [rating, setRating] = useState(0);
+  const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(false);
   const [ notifs, setNotifs] = useState(false);
+
+
+  const sendFeedback = async(e)=>{
+    setLoading(true);
+    e.preventDefault()
+    let response = await fetch(`${baseURL}learn/post-feedback/`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body:JSON.stringify({'review': e.target.feedback.value, 'rating': rating, 'user': user.user_id})
+    })
+    let data = await response.json()
+
+    if (response.status === 201){
+      setNotifs(true);
+      console.log(data);
+      setLoading(false)
+      e.target.reset();
+    }else{
+      setLoading(false);
+      console.log(response.statusText);
+    }
+  }
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setNotifs(false);
+    }, 2000)
+  }, [notifs])
+
   return (
     <div className = "frame-14 mb-10">
       <div>
@@ -28,7 +62,7 @@ const Feedback = ({star1, star2}) => {
           </div>
         </div>
         <div>
-          <form className='relative'>
+          <form className='relative' onSubmit={sendFeedback}>
             { notifs ? 
               (<div className='absolute pt-12 w-full'>
               <div className='bg-white px-1 py-4 flex flex-row text-sm w-[250px] mx-auto shadow-md rounded-md'>
@@ -54,7 +88,7 @@ const Feedback = ({star1, star2}) => {
             <div className="w-full flex justify-end">
               <button className={`bg-[${active ? '#942BD4' : '#E6E2E9'}] text-[${active ? '#FAF9FB' : '#817A86'}] border rounded-lg p-2 text-sm`}
               onClick={()=> setActive(false)}>
-              Submit</button>
+              {loading ? 'Submitting' : 'Submit'}</button>
             </div>
           </form>
         </div>

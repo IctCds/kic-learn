@@ -3,13 +3,15 @@ import { useAuthContext } from '../../context/auth/AuthContext';
 import {BsEmojiSunglasses} from 'react-icons/bs';
 import {MdOutlineAlternateEmail} from 'react-icons/md';
 import {BiLock} from 'react-icons/bi';
-import {FiEye} from 'react-icons/fi'; 
+import {FiEye, FiEyeOff} from 'react-icons/fi'; 
 
 const exams = ['JSSCE', 'SSSCE', 'JAMB'];
 
 const SignUp = () => {
   let {setSignUpOpen, setLoginOpen, handleChange, signUp, setExam, loading} = useAuthContext();
   const [active, setActive] = useState(0);
+  const [changePassword, setChangePassword] = useState(true);
+  const changeIcon = changePassword === true ? false : true;
 
   const handleClick = (index) =>{
     setActive(index);
@@ -52,10 +54,10 @@ const SignUp = () => {
           <label htmlFor='password' className='text-xs font-semibold text-[#817A86] mb-2'>Password</label>
           <div className='relative flex items-center'>
             <span className='w-full absolute text-gray-300 px-3 flex justify-between pointer-events-none'>
-              <BiLock/>
-              <FiEye/>
+              <span><BiLock/></span>
+              <span onClick={()=> setChangePassword(changeIcon)}>{changeIcon ? <FiEye/> : <FiEyeOff/>}</span>
             </span>
-            <input type='password' name='password' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] placeholder-[#B4ABBA] text-gray-800 text-xs focus:outline-[#942BD4]' 
+            <input type={changePassword ? 'password' : 'text'} name='password' className='w-full border-none pr-2 pl-10 h-12 rounded-md bg-[#F3F0F4] placeholder-[#B4ABBA] text-gray-800 text-xs focus:outline-[#942BD4]' 
               placeholder='**********' onChange={handleChange} required/>
           </div>
         </div>
