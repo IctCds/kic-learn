@@ -24,13 +24,14 @@ const QuizInterface = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate()
   let {userExam} = userProfile
-  let dummyData = {id:1, question:"", options:[]}
+  let dummyData = {id:"", question:"", options:[]}
 
   let { next, results } = questions;
   let result = results? results : []
-  let { id, question, options} = result.length > 0 ? result[0] : dummyData ;
+  let { question, options} = result.length > 0 ? result[0] : dummyData ;
+  let { id } = questions.results;
 
-  let questionsLeft = 10 - quizData.length
+  let questionsLeft = 10 - quizData.length;
 
   let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: "First Name";
 
