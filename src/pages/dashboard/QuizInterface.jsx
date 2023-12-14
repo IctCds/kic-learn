@@ -1,34 +1,80 @@
 import React, {useState, useEffect} from "react";
 import Modal from "../../components/dashboard/quizInterface/Modal";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../context/auth/AuthContext";
 import { useAppContext } from "../../context/app/AppContext";
-import { getQuestions, selectAnswer, getSelectedAnswer } from '../../features/quiz/quizSlice'
+import { getQuestions, selectAnswer, getSelectedAnswer, getQuizResults } from '../../features/quiz/quizSlice';
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import Loader from "../../components/utilities/Loader";
 
 
 // const quizNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const dummyOption = ['A', 'B', 'C', 'D'];
+const toastPosition = {
+  position: toast.POSITION.TOP_CENTER,
+};
 
 const QuizInterface = () => {
-  const {quizNumbers, questions, selectedAnswer, quizData} = useSelector((state) => state.quiz); 
+  const {quizNumbers, questions, subject, selectedAnswer, quizData, timeTaken} = useSelector((state) => state.quiz); 
   const [openCancelModal, setOpenCancelModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1)
   let { user } = useAuthContext();
-  let { userLoggedIn, userProfile } = useAppContext();
+  let { userLoggedIn, userProfile, isLoading} = useAppContext();
   let dispatch = useDispatch();
+  let navigate = useNavigate()
+  let {userExam} = userProfile
+  let dummyData = {id:1, question:"", options:[]}
 
   let { next, results } = questions;
-  let { id, question, options} = results[0] ? results[0] : {} ;
+  let result = results? results : []
+  let { id, question, options} = result.length > 0 ? result[0] : dummyData ;
 
   let questionsLeft = 10 - quizData.length
 
   let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: "First Name";
 
-  let url = 'https://ictcds.pythonanywhere.com/api/learn/questions/JAMB/English/';
+  let url = `https://ictcds.pythonanywhere.com/api/learn/questions/${userExam}/${subject}/`;
+  const baseURL = "https://ictcds.pythonanywhere.com/api/learn/solve/"
 
   const switchPage = (page) =>{
     dispatch(getQuestions(`${url}?page=${page}`))
+  }
+
+  const customRedirect = ()=>{
+    if (userExam === "JSSCE"){
+      navigate(`/dashboard/quiz/${user.user_id}/${userExam}`)
+      toast.warning('Questions are unavailable!', toastPosition)
+    }
+  }
+
+  const submitQuiz = async()=>{
+    let response = await fetch(baseURL, {
+      method: 'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        "data": quizData,
+        "result":{
+          "user": user.user_id,
+          "time_taken": timeTaken,
+          "subject": subject,
+          "exam": userExam,
+          "test": "Quiz"
+        }
+      })
+    });
+    let data = await response.json()
+
+    if(response.status === 201){
+      dispatch(getQuizResults(data))
+      toast.success("Quiz has been submitted", toastPosition)
+      navigate("/dashboard/result")
+    } else {
+      toast.error("Something went wrong", toastPosition)
+      console.log(response.statusText)
+    }
   }
 
   useEffect(()=>{
@@ -40,17 +86,21 @@ const QuizInterface = () => {
 
   useEffect(()=>{
     userLoggedIn(user);
+    customRedirect();
   }, [])
 
   return (
-    <div className="relative">
+    <section>
+      {isLoading ? (
+        <Loader/>
+      ) : (
+        <div className="relative">
       <div className="mx-5">
         <p className="text-[#4D4950] text-[11px] my-5 font-bold">TAKE A QUIZ</p>
         <div>
           <h3 className="text-[#4D4950] mb-1 font-bold">Instructions</h3>
           <p className="text-[#817A86] text-sm">
-            Hi {firstName}, you are taking a Maths [Subjectname] quiz in Algebra
-            [Topic]. Remember to attempt all, you will do well.
+            Hi {firstName}, you are taking a {subject} quiz. Remember to attempt all, you will do well.
             <br />
             <br /> If you can’t do all, no worries, you can still submit after
             answering at least 7 questions. <br />
@@ -126,17 +176,18 @@ const QuizInterface = () => {
         </div>
 
       { currentPage === 10 ?
-        (<Link to="/dashboard/result">
+        (
         <button
           className={`rounded-lg h-12 px-6  text-sm  mb-2 w-full ${
             true
               ? "bg-[#942BDA] text-white"
               : "bg-[#E6E2E9] text-[#B4ABBA]"
           }`}
+          onClick={()=>{submitQuiz()}}
         >
           Submit Quiz
         </button>
-      </Link>)
+      )
       :
       (
         <button
@@ -197,6 +248,8 @@ const QuizInterface = () => {
         otherText=" No problem, you can always retake it."
       />
     </div>
+      )}
+    </section>
   );
 };
 

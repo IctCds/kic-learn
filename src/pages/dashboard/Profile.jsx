@@ -275,10 +275,7 @@ const Profile = () => {
             userLocation={profileData.location}
           />
 
-          <Feedback
-            star1={star1}
-            star2={star2}
-          />
+          <Feedback/>
 
             </section>
       )

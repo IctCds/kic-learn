@@ -14,12 +14,13 @@ export const getQuestions = createAsyncThunk('quiz/getQuestions', async(url) => 
 
 const initialState = {
   quizNumbers: data,
-  timeTaken: "00:00:00",
+  timeTaken: "00:10:00",
   quizData: [],
   questions: {},
-  isLoading: true,
-  subject: "",
+  loading: true,
+  subject: "Mathematics",
   selectedAnswer: "",
+  quizResults: {},
 };
 
 const quizSlice = createSlice({
@@ -42,7 +43,7 @@ const quizSlice = createSlice({
         let newData = state.quizData.find((item) => item.id === questionID);
         newData.option = optionID;
       } else {
-        state.quizData = [...state.quizData, {id:questionID, option:optionID}]
+        state.quizData = [...state.quizData, {question:questionID, option:optionID, pageNumber:numID}]
       }
     },
     getSelectedAnswer:(state, action)=>{
@@ -58,23 +59,29 @@ const quizSlice = createSlice({
         const question = state.quizData.find((item)=> item.id === questionID);
         state.selectedAnswer = question.option
       }
-    }
+    },
+    selectSubject:(state, action)=>{
+      state.subject = action.payload
+    },
+    getQuizResults:(state, action)=>{
+      state.quizResults = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getQuestions.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
       })
       .addCase(getQuestions.fulfilled, (state, action) =>{
-        state.isLoading = false;
+        state.loading = false;
         state.questions = action.payload;
       })
       .addCase(getQuestions.rejected, (state, action) => {
-        state.isLoading = false
+        state.loading = false
       });
   },
 });
 
-export const { selectAnswer, getSelectedAnswer } = quizSlice.actions;
+export const { selectAnswer, getSelectedAnswer, selectSubject, getQuizResults } = quizSlice.actions;
 
 export default quizSlice.reducer;
