@@ -45,11 +45,12 @@ const Setup = () => {
             <Route path="/dashboard/profile/:id" element={<Profile />} />
             <Route path="/dashboard/report/:id" element={<Report />} />
             <Route
-              path="dashboard/quiz-interface"
+              path="/dashboard/quiz-interface"
               element={<QuizInterface />}
             />
             <Route path="/dashboard/result" element={<QuizResult />} />
             {/* Dashboard Routes */}
+            
           </Routes>
           <Footer />
         </AppProvider>

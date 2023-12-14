@@ -9,7 +9,9 @@ import TestSubjectCard from "../../components/dashboard/quiz/TestSubjectCard";
 import TestScoreCard from "../../components/dashboard/quiz/TestScoreCard";
 import { useAuthContext } from "../../context/auth/AuthContext";
 import { useAppContext } from "../../context/app/AppContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getQuestions } from '../../features/quiz/quizSlice'
 
 const dummySubject = [
   "Mathematics",
@@ -101,11 +103,20 @@ const Quiz = () => {
   const [filter, setFilter] = React.useState("ALL");
   let { user } = useAuthContext();
   let { userLoggedIn, isLoading, userProfile } = useAppContext();
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: "First Name"
   let lastName = userProfile.userName ? userProfile.userName.split(" ")[1] : "L."
   let id = userProfile.user ? userProfile.user.split("-")[0]: "12345678AB"
   let {user_pic, userExam} = userProfile;
+
+  let url = 'https://ictcds.pythonanywhere.com/api/learn/questions/JAMB/English/'
+
+  const startQuiz = () =>{
+    dispatch(getQuestions(url));
+    navigate('/dashboard/quiz-interface');
+  }
 
   useEffect(() => {
     userLoggedIn(user);
@@ -137,7 +148,7 @@ const Quiz = () => {
 
           <form className="pb-12">
             <FormSelect labelText="Choose a Subject" options={dummySubject} />
-            <FormSelect labelText="Select a Topic" options={dummyTopics} />
+            {/* <FormSelect labelText="Select a Topic" options={dummyTopics} /> */}
             <div className="flex justify-between items-center mb-8 mt-5 bg-[#F3F0F4] border-[1px] border-[#E6E2E9] rounded-lg h-10 px-3 text-xs font-bold leading-5 text-[#343036] w-full ">
               <div className="flex gap-1 items-center text-[#343036] ">
                 <PiTimer className="text-[#817A86] text-xl" /> 15 Mins
@@ -150,9 +161,11 @@ const Quiz = () => {
                 <IoMdCheckmark className="text-[#817A86] text-xl" /> 10 Marks
               </div>
             </div>
-            <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 ">
-              <Link to="/dashboard/quiz-interface">Start your quiz</Link>
-            </button>
+              <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 "
+                onClick={()=> startQuiz()}
+                >
+                Start your quiz
+              </button>
           </form>
           <div className="mb-4">
             <p className="text-[#4D4950] mb-1 font-medium">Performance</p>

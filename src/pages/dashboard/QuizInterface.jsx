@@ -1,31 +1,47 @@
-import React from "react";
-import { BiStopwatch } from "react-icons/bi";
+import React, {useState, useEffect} from "react";
 import Modal from "../../components/dashboard/quizInterface/Modal";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useAuthContext } from "../../context/auth/AuthContext";
+import { useAppContext } from "../../context/app/AppContext";
+import { getQuestions, selectAnswer, getSelectedAnswer } from '../../features/quiz/quizSlice'
 
-const quizNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const dummyOption = [
-  {
-    option: "A",
-    optionText: "Answer A",
-  },
-  {
-    option: "B",
-    optionText: "Answer B",
-  },
-  {
-    option: "C",
-    optionText: "Answer C",
-  },
-  {
-    option: "D",
-    optionText: "Answer D",
-  },
-];
+
+// const quizNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const dummyOption = ['A', 'B', 'C', 'D'];
 
 const QuizInterface = () => {
-  const [openCancelModal, setOpenCancelModal] = React.useState(false);
-  const [selectAnswer, setSelectAnswer] = React.useState("");
+  const {quizNumbers, questions, selectedAnswer, quizData} = useSelector((state) => state.quiz); 
+  const [openCancelModal, setOpenCancelModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1)
+  let { user } = useAuthContext();
+  let { userLoggedIn, userProfile } = useAppContext();
+  let dispatch = useDispatch();
+
+  let { next, results } = questions;
+  let { id, question, options} = results[0] ? results[0] : {} ;
+
+  let questionsLeft = 10 - quizData.length
+
+  let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: "First Name";
+
+  let url = 'https://ictcds.pythonanywhere.com/api/learn/questions/JAMB/English/';
+
+  const switchPage = (page) =>{
+    dispatch(getQuestions(`${url}?page=${page}`))
+  }
+
+  useEffect(()=>{
+    if(questions.count){
+      dispatch(getSelectedAnswer(id));
+    }
+  }, [questions])
+
+
+  useEffect(()=>{
+    userLoggedIn(user);
+  }, [])
+
   return (
     <div className="relative">
       <div className="mx-5">
@@ -33,7 +49,7 @@ const QuizInterface = () => {
         <div>
           <h3 className="text-[#4D4950] mb-1 font-bold">Instructions</h3>
           <p className="text-[#817A86] text-sm">
-            Hi Firstname, you are taking a Maths [Subjectname] quiz in Algebra
+            Hi {firstName}, you are taking a Maths [Subjectname] quiz in Algebra
             [Topic]. Remember to attempt all, you will do well.
             <br />
             <br /> If you can’t do all, no worries, you can still submit after
@@ -54,16 +70,16 @@ const QuizInterface = () => {
       <div className="mx-5">
         <div className="flex justify-between text-[#4D4950] text-xs font-medium mb-2">
           <span className="">Keep going!</span>
-          <span className="">5 questions left</span>
+          <span className="">{questionsLeft} questions left</span>
         </div>
         <div className="h-8 grid grid-cols-10 rounded overflow-hidden mb-2">
-          {quizNumbers.map((num) => {
+          {quizNumbers.map((item) => {
             return (
               <button
-                key={num}
-                className="text-xs font-medium h-full border-[1px] border-[#E6E2E9]"
+                key={item.num}
+                className={`text-xs font-medium h-full min-w-[32px] border-[1px] ${item.answered ? "bg-[#942BDA] text-white" : "border-[#E6E2E9]"}`}
               >
-                {num}
+                {item.num}
               </button>
             );
           })}
@@ -72,25 +88,23 @@ const QuizInterface = () => {
 
       <div className="p-5 bg-[#F3F0F4] mb-4">
         <span className="border-[1px] rounded h-8 w-8 flex justify-center items-center bg-white border-[#E6E2E9] my-3">
-          01
+          {currentPage < 10 ? `0${currentPage}`: `${currentPage}` }
         </span>
         <p className="text-lg font-medium">
-          Which of the following is most advanced in the evolutionary trend of
-          animals?
+          {question}
         </p>
         <div>
-          {dummyOption.map((item) => {
-            const { option, optionValue } = item;
-            const selectedOption = option === selectAnswer;
+          {options.map((item, index) => {
+            const selectedOption = item.id === selectedAnswer;
             return (
               <button
-                key={option}
+                key={item.id}
                 className={`flex rounded-lg border-[1px] ${
                   selectedOption
                     ? "bg-[#F5E6FE] border-[#EBCFFC]"
                     : "border-[#E6E2E9] bg-white"
                 }  items-center gap-3 w-full my-3 p-2`}
-                onClick={() => setSelectAnswer(option)}
+                onClick={() => dispatch(selectAnswer({numID: currentPage, questionID:id, optionID:item.id}))}
               >
                 <div className="flex gap-2">
                   <div
@@ -100,27 +114,44 @@ const QuizInterface = () => {
                         : "bg-[#E6E2E9] border-[#CDC7D1]"
                     }  border-[1px] `}
                   ></div>
-                  <span className="text-[#4d4950]">{option}</span>
+                  <span className="text-[#4d4950]">{dummyOption[index]}</span>
                 </div>
                 <div className="h-6 border-[1px] border-[#E6E2E9] bg-[#E6E2E9]"></div>
                 <div className="text-sm text-[#4d4950]">
-                  <p>Answer line 1</p>
-                  <p>Answer line 2</p>
+                  <p>{item.option}</p>
                 </div>
               </button>
             );
           })}
         </div>
 
+      { currentPage === 10 ?
+        (<Link to="/dashboard/result">
         <button
           className={`rounded-lg h-12 px-6  text-sm  mb-2 w-full ${
-            selectAnswer
+            true
               ? "bg-[#942BDA] text-white"
               : "bg-[#E6E2E9] text-[#B4ABBA]"
           }`}
         >
-          <Link to="/dashboard/result">Next question</Link>
+          Submit Quiz
         </button>
+      </Link>)
+      :
+      (
+        <button
+            className={`rounded-lg h-12 px-6  text-sm  mb-2 w-full ${
+              selectedAnswer
+                ? "bg-[#942BDA] text-white"
+                : "bg-[#E6E2E9] text-[#B4ABBA]"
+            }`}
+            onClick={()=> {dispatch(getQuestions(next)); setCurrentPage(currentPage + 1)}}
+          >
+            Next question
+        </button>
+      )
+      }
+
         <div className="flex justify-center">
           <button className="text-sm font-medium text-[#942BDA] border-b-2 border-[#942bda]">
             Skip question
@@ -131,17 +162,18 @@ const QuizInterface = () => {
       <div className="mx-5">
         <div className="flex justify-between text-[#4D4950] text-xs font-medium mb-2">
           <span className="">Keep going!</span>
-          <span className="">5 questions left</span>
+          <span className="">{questionsLeft} questions left</span>
         </div>
         <div className="h-8 grid grid-cols-10 rounded overflow-hidden mb-2">
-          {quizNumbers.map((num) => {
+          {quizNumbers.map((item) => {
             return (
               <button
-                key={num}
-                className="text-xs font-medium h-full min-w-[32px] border-[1px] border-[#E6E2E9]"
+                key={item.num}
+                className={`text-xs font-medium h-full min-w-[32px] border-[1px] ${item.answered ? "bg-[#942BDA] text-white" : "border-[#E6E2E9]"}`}
+                onClick={()=> {setCurrentPage(item.num); switchPage(item.num)}}
               >
-                {num < 10 ? "0" : ""}
-                {num}
+                {item.num < 10 ? "0" : ""}
+                {item.num}
               </button>
             );
           })}
