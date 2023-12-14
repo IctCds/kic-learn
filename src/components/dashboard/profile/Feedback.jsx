@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { IoMdCheckmark } from "react-icons/io";
 import './profile.css'
 import { useAuthContext } from '../../../context/auth/AuthContext';
+import star1 from '../../../svg/Profile/Star 1.svg';
+import star2 from '../../../svg/Profile/Star 2.svg';
 
 const baseURL = 'http://ictcds.pythonanywhere.com/api/';
 
-const Feedback = ({star1, star2}) => {
+const Feedback = () => {
   let {user} = useAuthContext()
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false)
