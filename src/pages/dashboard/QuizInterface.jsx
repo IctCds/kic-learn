@@ -24,12 +24,10 @@ const QuizInterface = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate()
   let {userExam} = userProfile
-  let dummyData = {id:"", question:"", options:[]}
 
   let { next, results } = questions;
-  let result = results? results : []
-  let { question, options} = result.length > 0 ? result[0] : dummyData ;
-  let { id } = questions.results;
+  let { id, question, options} = results[0] ? results[0] : {};
+  
 
   let questionsLeft = 10 - quizData.length;
 
