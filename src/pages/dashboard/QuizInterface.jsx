@@ -82,7 +82,7 @@ const QuizInterface = () => {
   }
 
   useEffect(()=>{
-    if(questions.id){
+    if(id !== undefined){
       dispatch(getSelectedAnswer(id));
     }
   }, [questions])
