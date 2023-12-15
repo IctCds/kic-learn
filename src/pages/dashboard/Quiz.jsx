@@ -11,7 +11,7 @@ import { useAuthContext } from "../../context/auth/AuthContext";
 import { useAppContext } from "../../context/app/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getQuestions } from '../../features/quiz/quizSlice'
+import { getQuestions, startSession } from '../../features/quiz/quizSlice'
 import Loader from "../../components/utilities/Loader";
 import '../../components/dashboard/profile/profile.css';
 import Feedback from "../../components/dashboard/profile/Feedback";
@@ -115,6 +115,7 @@ const Quiz = () => {
   let url = `https://ictcds.pythonanywhere.com/api/learn/questions/${userExam}/${subject}/`
 
   const startQuiz = () =>{
+    dispatch(startSession());
     dispatch(getQuestions(url));
     navigate('/dashboard/quiz-interface');
   }

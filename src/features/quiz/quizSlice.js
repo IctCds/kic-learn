@@ -17,10 +17,13 @@ const initialState = {
   timeTaken: "00:10:00",
   quizData: [],
   questions: {},
+  next: "",
   loading: true,
   subject: "Mathematics",
   selectedAnswer: "",
   quizResults: {},
+  takingQuiz: false,
+  userHasResult: false,
 };
 
 const quizSlice = createSlice({
@@ -35,12 +38,12 @@ const quizSlice = createSlice({
 
       function dataExists(id){
         return state.quizData.some(function(el){
-          return el.id === id;
+          return el.question === id;
         });
       }
 
       if (dataExists(questionID)){
-        let newData = state.quizData.find((item) => item.id === questionID);
+        let newData = state.quizData.find((item) => item.question === questionID);
         newData.option = optionID;
       } else {
         state.quizData = [...state.quizData, {question:questionID, option:optionID, pageNumber:numID}]
@@ -51,12 +54,12 @@ const quizSlice = createSlice({
 
       function dataExists(id){
         return state.quizData.some(function(el){
-          return el.id === id;
+          return el.question === id;
         });
       }
 
       if (dataExists(questionID)){
-        const question = state.quizData.find((item)=> item.id === questionID);
+        const question = state.quizData.find((item)=> item.question === questionID);
         state.selectedAnswer = question.option
       }
     },
@@ -66,6 +69,24 @@ const quizSlice = createSlice({
     getQuizResults:(state, action)=>{
       state.quizResults = action.payload
     },
+    clearQuizData: (state)=>{
+      state.quizNumbers = data;
+      state.quizData = [];
+      state.questions = {};
+      state.next = "";
+      state.selectedAnswer = "";
+      state.takingQuiz = false;
+    },
+    startSession:(state)=>{
+      state.takingQuiz = true
+    },
+    setUserResult:(state)=>{
+      state.userHasResult = true
+    },
+    clearQuizResult:(state)=>{
+      state.quizResults = {}
+      state.userHasResult = false
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -74,7 +95,10 @@ const quizSlice = createSlice({
       })
       .addCase(getQuestions.fulfilled, (state, action) =>{
         state.loading = false;
-        state.questions = action.payload;
+        state.takingQuiz = true;
+        const {next, results} = action.payload;
+        state.next = next;
+        state.questions = results[0];
       })
       .addCase(getQuestions.rejected, (state, action) => {
         state.loading = false
@@ -82,6 +106,6 @@ const quizSlice = createSlice({
   },
 });
 
-export const { selectAnswer, getSelectedAnswer, selectSubject, getQuizResults } = quizSlice.actions;
+export const { selectAnswer, getSelectedAnswer, selectSubject, getQuizResults, clearQuizData, startSession, setUserResult, clearQuizResult } = quizSlice.actions;
 
 export default quizSlice.reducer;

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import CircularProgress from "../../components/dashboard/quiz/CircularProgress";
 import { LiaStopwatchSolid } from "react-icons/lia";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearQuizResult } from "../../features/quiz/quizSlice";
 import { useAppContext } from "../../context/app/AppContext";
 import { useAuthContext } from "../../context/auth/AuthContext";
 import Loader from "../../components/utilities/Loader";
@@ -9,24 +10,29 @@ import { useNavigate } from "react-router-dom";
 
 const QuizResult = () => {
   const [selectOption, setSelectOption] = useState(0);
-  const [question, setQuestion] = useState("")
-  const [option, setOption] = useState("")
-  const [page, setPage] = useState(1)
-  const { quizResults, subject } = useSelector((state)=> state.quiz)
+  const [question, setQuestion] = useState("");
+  const [option, setOption] = useState("");
+  const [page, setPage] = useState(1);
+  const { quizResults, subject, userHasResult } = useSelector((state)=> state.quiz)
   const { failedQuestions, result } = quizResults;
-  const { score, timeTaken } = result
+  const { score, timeTaken } = result || {score:0, timeTaken:""}
   let {user} = useAuthContext();
-  let {userLoggedIn, isLoading} = useAppContext()
-  let navigate = useNavigate()
+  let {userLoggedIn, isLoading, userProfile} = useAppContext();
+  let {userExam} = userProfile;
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   let pageNumbers = []
 
-  failedQuestions.forEach((item)=>{
+  let questions = failedQuestions || []
+
+  questions.forEach((item)=>{
     pageNumbers.push(item.pageNumber)
   })
 
   let minute = timeTaken ? timeTaken.split(":")[1] : "00";
   let seconds = timeTaken ? timeTaken.split(":")[2] : "00";
+  let quizScore = score ? score : 0
 
   const handleClick = (value)=>{
     let question = failedQuestions.find((item)=> item.pageNumber === value)
@@ -36,9 +42,14 @@ const QuizResult = () => {
   }
 
   const customRedirect = () =>{
-    if (!quizResults.result.score){
+    if (!userHasResult){
       navigate('/dashboard')
     }
+  }
+
+  const takeQuiz = ()=>{
+    navigate(`/dashboard/quiz/${user.user_id}/${userExam}`)
+    dispatch(clearQuizResult())
   }
 
   useEffect(()=>{
@@ -53,7 +64,7 @@ const QuizResult = () => {
 
   return (
     <section>
-    {isLoading? (
+    {isLoading || !userHasResult || !score ? (
       <Loader/> 
     ) : (
       <div className="">
@@ -62,7 +73,7 @@ const QuizResult = () => {
       </p>
       <div className="mx-6">
         <h3 className="text-[#4D4950] mb-1 font-bold">
-          Hurray! You did great!
+          {quizScore > 6 ? "Hurray! You did great!" : "You can do better!"}
         </h3>
         <p className="text-[#817A86] text-sm">
           You got a {score} out of 10 marks on your {subject} quiz. You
@@ -92,7 +103,8 @@ const QuizResult = () => {
           You will find the solution to all your questions here.
         </p>
       </div>
-      <div className="mt-4 mx-6">
+      {pageNumbers.length > 0 && (
+        <div className="mt-4 mx-6">
         <p>You failed {pageNumbers.length} question</p>
         <div className="mb-5 mt-1 flex">
           <div className="border rounded-md overflow-hidden">
@@ -114,7 +126,9 @@ const QuizResult = () => {
           </div>
         </div>
       </div>
-      <div className="p-5 bg-[#F3F0F4] mb-4">
+      )}
+      {pageNumbers.length > 0 && (
+        <div className="p-5 bg-[#F3F0F4] mb-4">
         <span className="border-[1px] rounded h-8 w-8 flex justify-center items-center bg-white border-[#E6E2E9] my-3">
           {page}
         </span>
@@ -136,6 +150,7 @@ const QuizResult = () => {
           </div>
         </button>
       </div>
+      )}
       {/* <div className="text-[#4D4950] mx-6">
         <h3 className="text-[#4D4950] mb-1 font-bold">Further learning</h3>
         <p>To learn more on algebra, visit the resources below.</p>
@@ -153,7 +168,9 @@ const QuizResult = () => {
         </ol>
       </div> */}
       <div className="mx-6">
-        <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 my-3 ">
+        <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 my-3 "
+        onClick={()=> takeQuiz()}
+        >
           Take another quiz
         </button>
       </div>
