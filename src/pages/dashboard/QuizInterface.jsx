@@ -3,7 +3,7 @@ import Modal from "../../components/dashboard/quizInterface/Modal";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../../context/auth/AuthContext";
 import { useAppContext } from "../../context/app/AppContext";
-import { getQuestions, selectAnswer, getSelectedAnswer, getQuizResults } from '../../features/quiz/quizSlice';
+import { getQuestions, selectAnswer, getSelectedAnswer, getQuizResults, clearQuizData, setUserResult } from '../../features/quiz/quizSlice';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import Loader from "../../components/utilities/Loader";
@@ -16,8 +16,9 @@ const toastPosition = {
 };
 
 const QuizInterface = () => {
-  const {quizNumbers, questions, subject, selectedAnswer, quizData, timeTaken} = useSelector((state) => state.quiz); 
+  const {quizNumbers, questions, next, subject, selectedAnswer, quizData, timeTaken, takingQuiz} = useSelector((state) => state.quiz); 
   const [openCancelModal, setOpenCancelModal] = useState(false);
+  const [load, setLoad] = useState(false);
   const [currentPage, setCurrentPage] = useState(1)
   let { user } = useAuthContext();
   let { userLoggedIn, userProfile, isLoading} = useAppContext();
@@ -25,8 +26,7 @@ const QuizInterface = () => {
   let navigate = useNavigate()
   let {userExam} = userProfile
 
-  let { next, results } = questions;
-  let { id, question, options} = results[0] ? results[0] : {};
+  let { id, question, options} = questions;
   
 
   let questionsLeft = 10 - quizData.length;
@@ -41,13 +41,14 @@ const QuizInterface = () => {
   }
 
   const customRedirect = ()=>{
-    if (userExam === "JSSCE"){
+    if (userExam === "JSSCE" || !takingQuiz){
       navigate(`/dashboard/quiz/${user.user_id}/${userExam}`)
       toast.warning('Questions are unavailable!', toastPosition)
     }
   }
 
   const submitQuiz = async()=>{
+    setLoad(true);
     let response = await fetch(baseURL, {
       method: 'POST',
       headers:{
@@ -68,16 +69,20 @@ const QuizInterface = () => {
 
     if(response.status === 201){
       dispatch(getQuizResults(data))
+      dispatch(clearQuizData())
+      dispatch(setUserResult())
       toast.success("Quiz has been submitted", toastPosition)
       navigate("/dashboard/result")
+      setLoad(false)
     } else {
       toast.error("Something went wrong", toastPosition)
       console.log(response.statusText)
+      setLoad(false)
     }
   }
 
   useEffect(()=>{
-    if(questions.count){
+    if(questions.id){
       dispatch(getSelectedAnswer(id));
     }
   }, [questions])
@@ -85,12 +90,14 @@ const QuizInterface = () => {
 
   useEffect(()=>{
     userLoggedIn(user);
-    customRedirect();
+    setTimeout(()=>{
+      customRedirect();
+    }, 1200)
   }, [])
 
   return (
     <section>
-      {isLoading ? (
+      {isLoading || !questions.id? (
         <Loader/>
       ) : (
         <div className="relative">
@@ -184,7 +191,7 @@ const QuizInterface = () => {
           }`}
           onClick={()=>{submitQuiz()}}
         >
-          Submit Quiz
+          {load ? "Submitting..." : "Submit Quiz"}
         </button>
       )
       :
