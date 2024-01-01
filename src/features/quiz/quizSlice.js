@@ -76,6 +76,7 @@ const quizSlice = createSlice({
       state.next = "";
       state.selectedAnswer = "";
       state.takingQuiz = false;
+      state.subject = "Mathematics";
     },
     startSession:(state)=>{
       state.takingQuiz = true

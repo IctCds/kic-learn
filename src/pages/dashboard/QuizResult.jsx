@@ -111,7 +111,7 @@ const QuizResult = () => {
             {pageNumbers.map((item, index) => {
               return (
                 <button
-                  key={item}
+                  key={index}
                   className={`text-xs font-medium h-full border-[1px] px-4 py-2 border-[#E6E2E9] bg-[#F5E6FE] ${
                     selectOption === index
                       ? "bg-[#7623A9] text-white"
