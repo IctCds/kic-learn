@@ -55,7 +55,7 @@ const Navbar = () => {
       </div>
 
     { user? 
-      (<div>
+      (<div className="hidden md:block">
         <button className='h-12 bg-[#942BD4] border rounded-md w-[90px] text-sm text-[#FAF9FB]'
         onClick={()=> logout()}
         >Logout</button>
