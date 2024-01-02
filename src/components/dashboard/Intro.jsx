@@ -9,7 +9,7 @@ const Intro = () => {
   const firstname = user ? user.username.split(" ")[0] : "firstname";
 
   return (
-    <section className='bg-[#F5E6FE] h-[200px] w-[300px] mx-auto p-4 rounded-md text-center'>
+    <section className='bg-[#F5E6FE] h-[200px] w-[300px] md:w-[600px] lg:w-[900px] mx-auto p-4 rounded-md text-center mt-8 md:my-16'>
       <div className='flex justify-between'>
         <span className='ml-10 mt-[-30px]'>
           <Ellipse1/>
@@ -18,8 +18,8 @@ const Intro = () => {
           <Polygon2/>
         </span>
       </div>
-      <h3 className='text-3xl font-extrabold text-[#942BD4]'>Hi {firstname},</h3>
-      <h3 className='text-3xl font-extrabold text-[#3B1155]'>what are you studying today?</h3>
+      <h3 className='text-3xl md:text-4xl font-extrabold text-[#942BD4]'>Hi {firstname},</h3>
+      <h3 className='text-3xl md:text-4xl font-extrabold text-[#3B1155]'>what are you studying today?</h3>
       <div className='ml-8 mt-2'>
         <Polygon1/>
       </div>

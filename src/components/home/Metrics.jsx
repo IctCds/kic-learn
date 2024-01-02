@@ -12,7 +12,7 @@ import {ReactComponent as Icon9 } from '../../svg/icon9.svg';
 
 const Metrics = () => {
   return (
-    <section className='max-w-[500px] mx-auto py-4'>
+    <section className='max-w-[1100px] mx-auto py-4 grid lg:grid-cols-3'>
       <div className='bg-[#EFFEE6] py-4 h-[120px] w-[300px] mx-auto mb-4 rounded-md text-center px-4'>
         <h3 className='mb-2 text-[#87E54C] font-bold text-2xl'>1,000,000+</h3>
         <p className='text-sm text-[#2B5511]'>Past Questions and Solution for JAMB, Junior and Senior Waec.</p>

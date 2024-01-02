@@ -8,8 +8,8 @@ const Button = () => {
   const navigate = useNavigate();
 
   return (
-    <section className='max-w-[500px] mx-auto py-10 flex justify-center'>
-      <button className='bg-[#942BD4] p-3 border rounded-md text-sm text-[#FAF9FB]'
+    <section className="w-full py-10 flex justify-center">
+      <button className="bg-[#942bd4] p-3 border rounded-md text-sm text-[#FAF9FB] md:w-[250px]"
       onClick={()=> {user? navigate(`/dashboard`) : setSignUpOpen(true)}}
       >Get Started</button>
     </section>

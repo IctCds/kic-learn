@@ -8,7 +8,7 @@ const Sidebar = ({nav, menuRef, sidebar}) => {
   let {userProfile} = useAppContext();
   let {userExam} = userProfile;
   return (
-    <ul ref={menuRef} className={nav ? 'bg-white z-50 fixed right-0 top-0 w-[50%] h-full shadow-md ease-in-out duration-500 px-2 py-6 text-sm text-gray-700' : 'ease-in-out duration-500 fixed left-[-100%]'}>
+    <ul ref={menuRef} className={nav ? 'bg-white z-50 fixed right-0 top-0 w-[50%] h-full shadow-md ease-in-out duration-500 px-2 py-6 text-sm text-gray-700 md:hidden' : 'ease-in-out duration-500 fixed left-[-100%] md:hidden'}>
     { !user ?
       (
         <span>

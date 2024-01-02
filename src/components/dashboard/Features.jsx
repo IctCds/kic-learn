@@ -11,8 +11,8 @@ import {AiOutlineArrowRight} from 'react-icons/ai';
 const Features = ({profile}) => {
   const {user, userExam} = profile;
   return (
-    <section className='my-10 bg-[#FAF9FB] max-w-[550px] mx-auto py-8'>
-      <div className='grid gap-y-4 max-w-[400px] mx-auto'>
+    <section className='my-10 bg-[#FAF9FB] md:bg-white max-w-[1100px] mx-auto py-8'>
+      <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-y-4'>
           <div className='bg-white h-[140px] w-[300px] mx-auto flex flex-row rounded-md shadow-md'>
             <div className='w-[70%] py-4 px-2'>
               <h3 className='mb-2 text-[#591A7F] font-bold'>
