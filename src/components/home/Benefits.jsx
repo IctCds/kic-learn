@@ -40,8 +40,8 @@ const data = [
 
 const Benefits = () => {
   return (
-    <section className='bg-[#FAF9FB] max-w-[550px] mx-auto py-8'>
-      <div className='grid gap-y-4 max-w-[400px] mx-auto'>
+    <section className='bg-[#FAF9FB] md:bg-white max-w-[1100px] mx-auto py-8'>
+      <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-y-4'>
         {data.map((item, index)=>{
           return (
             <div key={index} className='bg-white h-[120px] w-[300px] mx-auto flex flex-row rounded-md shadow-md'>

@@ -1,4 +1,6 @@
 import React from 'react'
+import star1 from '../../svg/Profile/Star 1.svg'
+import star2 from '../../svg/Profile/Star 2.svg'
 
 const data = [
   {
@@ -20,11 +22,18 @@ const data = [
 
 const Reviews = () => {
   return (
-    <section className='pt-8'>
+    <section className='pt-8 hidden lg:block'>
       <div className='max-w-[1080px] py-4 mx-auto flex justify-between overflow-x-auto'>
         {data.map((item, index)=>{
           return (
-            <div key={index} className='h-[150px] w-[300px] mx-2 bg-[#FBF5FF] text-[#591A7F] p-2 rounded-md'>
+            <div key={index} className='h-[190px] w-[300px] mx-2 bg-[#FBF5FF] text-[#591A7F] p-2 rounded-md'>
+              <span className='flex flex-row mb-2'>
+                <img src={star1} alt="star" />
+                <img src={star1} alt="star" />
+                <img src={star1} alt="star" />
+                <img src={star2} alt="star" />
+                <img src={star2} alt="star" />
+              </span>
               <h3 className='font-bold mb-2'>{item.name}</h3>
               <p className='text-xs'>{item.review}</p>
             </div>
