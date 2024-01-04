@@ -23,7 +23,7 @@ const Modal = ({
   useEffect(()=>{
     let handleClose = (e) =>{
       if (!timerRef?.current?.contains(e.target)){
-        close(false);
+        close(timer ? true : false);
       }
     };
     document.addEventListener('mousedown', handleClose);
@@ -39,7 +39,7 @@ const Modal = ({
         <div
           className="fixed top-0 h-screen w-screen bg-[#0000007d]  flex justify-center items-center px-3"
         >
-          <div ref={timer ? null : timerRef} className="min-h-[142px] rounded-lg bg-white p-5 opacity-100">
+          <div ref={timerRef} className="min-h-[142px] rounded-lg bg-white p-5 opacity-100">
             <div className="mb-4 grid grid-cols-5 items-center">
               <div className="col-span-1 w-12 h-12 bg-[#FCEACF] flex items-center justify-center rounded-full">
                 <div
