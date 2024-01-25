@@ -53,42 +53,7 @@ const dummyTopicScores = [
   },
 ];
 
-const dummyTestHistory = [
-  {
-    subject: "Mathematics",
-    topic: "Algegraic Expression",
-    score: 70,
-    duration: "9min 20secs",
-    time: "10:14AM",
-    date: "07 August, 2027",
-  },
-  {
-    subject: "English Language",
-    topic: "Tense",
-    score: 70,
-    duration: "9min 20secs",
-    time: "10:14AM",
-    date: "07 August, 2027",
-  },
-  {
-    subject: "Mathematics",
-    topic: "Circle Geometry",
-    score: 70,
-    duration: "8min 20secs",
-    time: "10:14AM",
-    date: "07 August, 2027",
-  },
-  {
-    subject: "Mathematics",
-    topic: "Circle Geometry",
-    score: 80,
-    duration: "5min 20secs",
-    time: "10:14AM",
-    date: "07 August, 2027",
-  },
-];
-
-const dummyFilterSubject = ["ALL", "MATHS", "ENG"];
+const dummyFilterSubject = [{option: "ALL", value:"All"}, {option: "MATHS", value: "Mathematics"}, {option: "ENG", value: "English"}]
 const dummyTestScoreCard = [
   {
     subject: "Mathematics",
@@ -98,7 +63,8 @@ const dummyTestScoreCard = [
   },
 ];
 const Quiz = () => {
-  const [filter, setFilter] = useState("ALL");
+  const [filter, setFilter] = useState("All");
+  const [testHistory, setTestHistory] = useState([])
   const [load, setLoad] = useState(true)
   let { user } = useAuthContext();
   let { userLoggedIn, isLoading, userProfile } = useAppContext();
@@ -114,10 +80,28 @@ const Quiz = () => {
 
   let url = `https://ictcds.pythonanywhere.com/api/learn/questions/${userExam}/${subject}/`
 
+  let baseURL = `https://ictcds.pythonanywhere.com/api/learn/user-performance/${user.user_id}/1/${filter}/`
+
+
   const startQuiz = () =>{
     dispatch(startSession());
     dispatch(getQuestions(url));
     navigate('/dashboard/quiz-interface');
+  }
+
+  const getHistory = async()=>{
+    let response = await fetch(baseURL, {
+      method: 'GET',
+      headers:{'Content-Type': 'application/json'}
+    });
+
+    let data = await response.json()
+
+    if (response.status === 200){
+      setTestHistory(data.history)
+    } else {
+      console.log(data.message)
+    }
   }
 
   useEffect(() => {
@@ -126,6 +110,10 @@ const Quiz = () => {
       setLoad(false);
     }, 1500)
   }, []);
+
+  useEffect(() =>{
+    getHistory();
+  }, [filter])
 
   return (
     <section>
@@ -192,34 +180,34 @@ const Quiz = () => {
           })} */}
 
           {/* ACTIVITIES */}
-          {/* <div className="mt-4 mb-2">
+          <div className="mt-4 mb-2">
             <p className="text-[#4D4950] mb-1 font-medium">Activities</p>
             <p className="text-[#817A86] text-sm">
               See what you past test activities and scores have been.
             </p>
-          </div> */}
+          </div>
 
           {/* TEST HISTORY */}
-          {/* <p className="text-[#4D4950] font-bold mb-2 mt-3 text-[11px]">
+          <p className="text-[#4D4950] font-bold mb-2 mt-3 text-[11px]">
             TEST HISTORY
-          </p> */}
-          {/* <div className="h-10 bg-[#E6E2E9] rounded-lg flex gap-[10px] items-center px-[2px] mb-3">
+          </p>
+          <div className="h-10 bg-[#E6E2E9] rounded-lg flex gap-[10px] items-center px-[2px] mb-3">
             {dummyFilterSubject.map((data, index) => {
               return (
                 <button
-                  key={`${data}-${index}`}
-                  onClick={() => setFilter(data)}
+                  key={`${data.option}-${index}`}
+                  onClick={() => setFilter(data.value)}
                   className={`${
-                    data === filter ? "bg-white" : ""
+                    data.value === filter ? "bg-white" : ""
                   } text-[#817A86]  h-[36px] rounded-[7px] px-3 text-[11px] font-bold`}
                 >
-                  {data}
+                  {data.option}
                 </button>
               );
             })}
-          </div> */}
-          {/* <div>
-            {dummyTestHistory.map((history, index) => {
+          </div>
+          <div>
+            {testHistory.map((history, index) => {
               return (
                 <TestSubjectCard
                   key={`${history.subject}-${index}`}
@@ -227,12 +215,12 @@ const Quiz = () => {
                 />
               );
             })}
-          </div> */}
+          </div>
 
           {/* PAGINATION AFTER TEST HISTORY */}
-          {/* <div className="flex justify-start mt-3">
+          <div className="flex justify-start mt-3">
             <Pagination page={4} />
-          </div> */}
+          </div>
 
           {/* FEEDBACK */}
           <p className="text-[#4D4950] font-bold mb-3 mt-6 text-[11px]">
