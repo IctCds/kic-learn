@@ -202,7 +202,7 @@ const QuizInterface = () => {
                       ? "bg-[#F5E6FE] border-[#EBCFFC]"
                       : "border-[#E6E2E9] bg-white"
                   }  items-center gap-3 w-full my-3 p-2`}
-                  onClick={() => dispatch(selectAnswer({numID: currentPage, questionID:id, optionID:item.id}))}
+                  onClick={() => dispatch(selectAnswer({numID: currentPage, questionID:id, optionID:item.id, optionLetter:dummyOption[index]}))}
                 >
                   <div className="flex gap-2">
                     <div

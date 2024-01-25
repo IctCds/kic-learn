@@ -31,7 +31,7 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     selectAnswer: (state, {payload}) =>{
-      let {numID, questionID, optionID} = payload
+      let {numID, questionID, optionID, optionLetter} = payload
       const quizNumber = state.quizNumbers.find((item) => item.num === numID);
       quizNumber.answered = true;
       state.selectedAnswer = optionID;
@@ -45,8 +45,9 @@ const quizSlice = createSlice({
       if (dataExists(questionID)){
         let newData = state.quizData.find((item) => item.question === questionID);
         newData.option = optionID;
+        newData.optionLetter = optionLetter
       } else {
-        state.quizData = [...state.quizData, {question:questionID, option:optionID, pageNumber:numID}]
+        state.quizData = [...state.quizData, {question:questionID, option:optionID, pageNumber:numID, optionLetter:optionLetter}]
       }
     },
     getSelectedAnswer:(state, action)=>{
