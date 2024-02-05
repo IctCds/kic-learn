@@ -28,6 +28,7 @@ const Leaderboard = () => {
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
   const [ filter, setFilter ] = useState("All")
   const [ ranking, setRanking ] = useState([]);
+  const [ load, setLoad ] = useState(true)
   const [ info, setInfo ] = useState({position: "", highestScore: "", highestScoreSub: "", currentScore: "", increase: ""});
   let firstName = userProfile.userName ? userProfile.userName.split(" ")[0]: "First Name"
   let lastName = userProfile.userName ? userProfile.userName.split(" ")[1] : "L."
@@ -69,6 +70,9 @@ const Leaderboard = () => {
   useEffect(()=>{
     userLoggedIn(user);
     getUserInfo();
+    setTimeout(()=>{
+      setLoad(false);
+    }, 1500);
   }, [])
 
   useEffect(()=>{
@@ -78,7 +82,7 @@ const Leaderboard = () => {
   return (
     <section>
       {
-        isLoading ? 
+        isLoading || load ? 
         (
           <Loader/>     
         )
