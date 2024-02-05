@@ -29,7 +29,7 @@ const Sidebar = ({nav, menuRef, sidebar}) => {
         <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/quiz/${user.user_id}/${userExam}`} onClick={()=>{sidebar(false)}}>Quiz</Link></li>
         <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/exams/${user.user_id}/${userExam}`} onClick={()=>{sidebar(false)}}>Exams</Link></li>
         <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/library/${user.user_id}`} onClick={()=>{sidebar(false)}}>Library</Link></li>
-        <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/report/${user.user_id}`} onClick={()=>{sidebar(false)}}>Report card</Link></li>
+        <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/leaderboard/${user.user_id}`} onClick={()=>{sidebar(false)}}>Leaderboard</Link></li>
         <li className='p-4 border-b border-gray-100'><Link to={`/dashboard/profile/${user.user_id}`} onClick={()=>{sidebar(false)}}>Profile</Link></li>
         <li className='p-4'>
           <button className='p-2 border border-purple-700 rounded-md'

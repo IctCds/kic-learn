@@ -42,6 +42,7 @@ const Navbar = () => {
             <li className='p-4 cursor-pointer'><Link to={`/dashboard/exams/${user.user_id}/${userExam}`}>Exams</Link></li>
             <li className='p-4 cursor-pointer'><Link to={`/dashboard/library/${user.user_id}`}>Library</Link></li>
             <li className='p-4 cursor-pointer'><Link to={`/dashboard/profile/${user.user_id}`}>Profile</Link></li>
+            <li className='p-4 cursor-pointer'><Link to={`/dashboard/leaderboard/${user.user_id}`}>Leaderboard</Link></li>
           </ul>)
           :
           (<ul className='flex justify-between text-sm text-[#817A86]'>

@@ -13,9 +13,11 @@ const QuizResult = () => {
   const [question, setQuestion] = useState("");
   const [option, setOption] = useState("");
   const [page, setPage] = useState(1);
-  const { quizResults, subject, userHasResult } = useSelector((state)=> state.quiz)
+  const [wrongOption, setWrongOption] = useState("")
+  const [optionLetter, setOptionLetter] = useState("")
+  const { quizResults, userHasResult } = useSelector((state)=> state.quiz)
   const { failedQuestions, result } = quizResults;
-  const { score, timeTaken } = result || {score:0, timeTaken:""}
+  const { score, timeTaken, subject} = result || {score:0, timeTaken:"", subject:""}
   let {user} = useAuthContext();
   let {userLoggedIn, isLoading, userProfile} = useAppContext();
   let {userExam} = userProfile;
@@ -39,6 +41,8 @@ const QuizResult = () => {
     setQuestion(question.question);
     setOption(question.correctOption);
     setPage(value);
+    setWrongOption(question.selectedOption)
+    setOptionLetter(question.optionLetter)
   }
 
   const customRedirect = () =>{
@@ -105,7 +109,7 @@ const QuizResult = () => {
       </div>
       {pageNumbers.length > 0 && (
         <div className="mt-4 mx-6">
-        <p>You failed {pageNumbers.length} question</p>
+        <p>You failed {pageNumbers.length} question(s)</p>
         <div className="mb-5 mt-1 flex">
           <div className="border rounded-md overflow-hidden">
             {pageNumbers.map((item, index) => {
@@ -140,9 +144,23 @@ const QuizResult = () => {
         >
           <div className="flex gap-2">
             <div
+              className={`w-6 h-6 rounded-full bg-red-500 border-white border-[1px] `}
+            ></div>
+            <span className="text-[#4d4950]">{optionLetter}</span>
+          </div>
+          <div className="h-6 border-[1px] border-[#E6E2E9] bg-[#E6E2E9]"></div>
+          <div className="text-sm text-[#4d4950]">
+            <p>{wrongOption}</p>
+          </div>
+        </button>
+        <button
+          className={`flex rounded-lg border-[1px] bg-[#F5E6FE] border-[#EBCFFC]  items-center gap-3 w-full my-3 p-2`}
+        >
+          <div className="flex gap-2">
+            <div
               className={`w-6 h-6 rounded-full bg-[#942BD4] border-white border-[1px] `}
             ></div>
-            <span className="text-[#4d4950]">A</span>
+            <span className="text-[#4d4950]"></span>
           </div>
           <div className="h-6 border-[1px] border-[#E6E2E9] bg-[#E6E2E9]"></div>
           <div className="text-sm text-[#4d4950]">

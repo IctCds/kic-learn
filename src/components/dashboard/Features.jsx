@@ -82,13 +82,13 @@ const Features = ({profile}) => {
           <div className='bg-white h-[140px] w-[300px] mx-auto flex flex-row rounded-md shadow-md'>
             <div className='w-[70%] py-4 px-2'>
               <h3 className='mb-2 text-[#591A7F] font-bold'>
-                Get my report card
+                View Leaderboard
               </h3>
               <p className='text-xs text-[#817A86] mb-2'>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </p>
 
-              <Link to={`/dashboard/report/${user}`}>
+              <Link to={`/dashboard/leaderboard/${user}`}>
                 <button className='bg-[#942BD4] py-1 px-2 rounded-md text-gray-100'>
                   <AiOutlineArrowRight size={10}/>
                 </button>

@@ -11,6 +11,7 @@ import Profile from "../pages/dashboard/Profile";
 import Report from "../pages/dashboard/Report";
 import QuizInterface from "../pages/dashboard/QuizInterface";
 import QuizResult from "../pages/dashboard/QuizResult";
+import Leaderboard from "../pages/dashboard/Leaderboard"
 
 // Components
 import Navbar from "../components/global/Navbar";
@@ -49,6 +50,7 @@ const Setup = () => {
               element={<QuizInterface />}
             />
             <Route path="/dashboard/result" element={<QuizResult />} />
+            <Route path="/dashboard/leaderboard/:id" element={<Leaderboard/>} />
             {/* Dashboard Routes */}
             
           </Routes>
