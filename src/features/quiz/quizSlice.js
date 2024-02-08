@@ -18,6 +18,7 @@ const initialState = {
   quizData: [],
   questions: {},
   next: "",
+  count: 0,
   loading: true,
   subject: "Mathematics",
   selectedAnswer: "",
@@ -75,6 +76,7 @@ const quizSlice = createSlice({
       state.quizData = [];
       state.questions = {};
       state.next = "";
+      state.count = 0;
       state.selectedAnswer = "";
       state.takingQuiz = false;
       state.subject = "Mathematics";
@@ -98,8 +100,9 @@ const quizSlice = createSlice({
       .addCase(getQuestions.fulfilled, (state, action) =>{
         state.loading = false;
         state.takingQuiz = true;
-        const {next, results} = action.payload;
+        const {next, results, count} = action.payload;
         state.next = next;
+        state.count = count
         state.questions = results[0];
       })
       .addCase(getQuestions.rejected, (state, action) => {
