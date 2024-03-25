@@ -17,7 +17,7 @@ const toastPosition = {
 };
 
 const QuizInterface = () => {
-  const {quizNumbers, questions, next, subject, selectedAnswer, quizData, takingQuiz} = useSelector((state) => state.quiz); 
+  const {quizNumbers, questions, count, subject, selectedAnswer, quizData, takingQuiz} = useSelector((state) => state.quiz); 
   const [openCancelModal, setOpenCancelModal] = useState(false);
   const [ eightMinutes, setEightMinutes ] = useState(false);
   const [ fourMinutes, setFourMinutes ] = useState(false);
@@ -25,7 +25,8 @@ const QuizInterface = () => {
   const [ timeUp, setTimeUp ] = useState(false);
   const [ clickSubmit, setClickSubmit ] = useState(false)
   const [load, setLoad] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ pageNum, setPageNum ] = useState([]);
   let { user } = useAuthContext();
   let { userLoggedIn, userProfile, isLoading} = useAppContext();
   let dispatch = useDispatch();
@@ -48,6 +49,15 @@ const QuizInterface = () => {
 
   let url = `https://ictcds.pythonanywhere.com/api/learn/questions/${userExam}/${subject}/`;
   const baseURL = "https://ictcds.pythonanywhere.com/api/learn/solve/"
+
+  let questionNums = [];
+
+  const shuffleArray = (array) =>{
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
   const switchPage = (page) =>{
     dispatch(getQuestions(`${url}?page=${page}`))
@@ -127,6 +137,21 @@ const QuizInterface = () => {
 
 
   useEffect(()=>{
+    setTimeout(()=>{
+      if (count > 0){
+        for(let i = 1; i <= count; i++){
+          questionNums.push(i);
+        }
+        shuffleArray(questionNums);
+        let uniqueArray = [...new Set(questionNums)]
+        setPageNum(uniqueArray);
+        console.log(uniqueArray);
+      }
+    }, 1000)
+  }, [count])
+
+
+  useEffect(()=>{
     userLoggedIn(user);
     setTimeout(()=>{
       customRedirect();
@@ -152,7 +177,7 @@ const QuizInterface = () => {
             Goodluck!
           </p>
           <button className="text-[#FAF9FB] bg-[#942BD4] w-full text-sm font-medium rounded-lg h-12 px-6 my-3"
-          onClick={start}
+          onClick={()=> {start(); switchPage(pageNum[0])}}
           >
             Start your Quiz
           </button>
@@ -233,7 +258,7 @@ const QuizInterface = () => {
                       ? "bg-[#942BDA] text-white"
                       : "bg-[#E6E2E9] text-[#B4ABBA]"
                   }`}
-                  onClick={()=> {setCurrentPage(9); switchPage(9)}}
+                  onClick={()=> {setCurrentPage(9); switchPage(pageNum[9-1])}}
                 >
                   Previous Question
                 </button>
@@ -259,7 +284,7 @@ const QuizInterface = () => {
                   ? "bg-[#942BDA] text-white"
                   : "bg-[#E6E2E9] text-[#B4ABBA]"
               }`}
-              onClick={()=> {dispatch(getQuestions(next)); setCurrentPage(currentPage + 1)}}
+              onClick={()=> {switchPage(pageNum[currentPage]); setCurrentPage(currentPage + 1)}}
             >
               Next question
           </button>
@@ -284,7 +309,7 @@ const QuizInterface = () => {
                 <button
                   key={item.num}
                   className={`text-xs font-medium h-full min-w-[32px] border-[1px] ${item.answered ? "bg-[#942BDA] text-white" : "border-[#E6E2E9]"}`}
-                  onClick={()=> {setCurrentPage(item.num); switchPage(item.num)}}
+                  onClick={()=> {setCurrentPage(item.num); switchPage(pageNum[item.num - 1])}}
                 >
                   {item.num < 10 ? "0" : ""}
                   {item.num}
